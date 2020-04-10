@@ -15,12 +15,12 @@ export default {
   'king-of-tokyo': {
     title: 'King of Tokyo',
     sides: [
-      {content: 1, color: 'black', type: SIDES_TYPES.NUMBER},
-      {content: 2, color: 'black', type: SIDES_TYPES.NUMBER},
-      {content: 3, color: 'black', type: SIDES_TYPES.NUMBER},
-      {content: '♥', color: 'black', type: SIDES_TYPES.STRING},
-      {content: '💥', color: 'black', type: SIDES_TYPES.STRING},
-      {content: '💲', color: 'black', type: SIDES_TYPES.STRING},
+      {content: 1, type: SIDES_TYPES.NUMBER},
+      {content: 2, type: SIDES_TYPES.NUMBER},
+      {content: 3, type: SIDES_TYPES.NUMBER},
+      {content: '💗', type: SIDES_TYPES.STRING},
+      {content: '💥', type: SIDES_TYPES.STRING},
+      {content: '💲', type: SIDES_TYPES.STRING},
     ]
   }
 }
