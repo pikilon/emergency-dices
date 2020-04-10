@@ -12,7 +12,7 @@ export const template = /*html*/
 
   <v-content>
     <v-container fluid>
-
+    <game-set v-if="gameSet" :slug="gameSet.slug" />
 
 
     </v-container>
