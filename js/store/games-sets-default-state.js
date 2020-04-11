@@ -7,6 +7,6 @@ export default {
   'king-of-tokyo': {
     title: 'King of Tokyo',
     slug: 'king-of-tokyo',
-    dices: '123456'.split('').fill('king-of-tokyo')
+    dices: '12345'.split('').fill('king-of-tokyo')
   }
 }
