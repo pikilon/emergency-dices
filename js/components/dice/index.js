@@ -12,6 +12,7 @@ export default Vue.extend({
   mixins: [cssMixin],
   template,
   props: {
+    color: String,
     slug: String,
     selectedSideIndex: 0
   },
@@ -21,7 +22,7 @@ export default Vue.extend({
     }),
     selectedSide() { return this.dice.sides[this.selectedSideIndex] },
     styles() {
-      const { color } = this.selectedSide
+      const color = this.selectedSide.color || this.color || false
       if (!color) return undefined
       return `background-color: ${color}`
     },
