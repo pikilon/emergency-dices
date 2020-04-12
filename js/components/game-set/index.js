@@ -33,10 +33,11 @@ export default Vue.extend({
     slug: String
   },
   computed: {
+    ...Vuex.mapGetters([DICES_STORE.GETTERS.PROCESSED]),
     ...mapState({
       gameSet(state) {return state[GAMES_SETS_STORE.STORE][this.slug]},
-      dicesMap(state) { return state[DICES_STORE.STORE]}
     }),
+    dicesMap() { return this[DICES_STORE.GETTERS.PROCESSED]},
     dices() {
       return this.gameSet.dices.reduce(
         (result, {amount, ...currentDice}) => {

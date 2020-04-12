@@ -1,4 +1,6 @@
 import state from './dices-default-state.js'
+import { SIDES_TYPES } from '../constants/index.js'
+
 const STORE = 'dices'
 export const DICES_STORE = {
   STORE,
@@ -8,6 +10,9 @@ export const DICES_STORE = {
     ADD_SIDE: `${STORE}_add_side`,
     REMOVE_SIDE: `${STORE}_remove_side`,
   },
+  GETTERS: {
+    PROCESSED: `get_processed_${STORE}`
+  }
 }
 
 const mutations = {
@@ -24,25 +29,49 @@ const mutations = {
     state[diceSlug].sides.splice(sideIndex, 1)
   },
 }
-/*
+
+const SIZES_NEED_PROCCESING = {
+  [SIDES_TYPES.NUMBER_INTERVAL] : true
+}
+
+const processDice = (dice) => {
+  const { sides, ...restDice } = dice
+
+  restDice.sides = sides.reduce(
+    (result, side) => {
+      if (!SIZES_NEED_PROCCESING[side.type]) {
+        result.push(side)
+        return result
+      }
+      if (side.type === SIDES_TYPES.NUMBER_INTERVAL) {
+        let [lowerBound, upperBound] = side.content.split('-')
+        for (lowerBound; lowerBound <= upperBound; lowerBound++) {
+          result.push({content: lowerBound, type: SIDES_TYPES.NUMBER})
+        }
+      }
+
+      return result
+    },
+    []
+  )
+
+  return restDice
+
+}
+
 const getters = {
-  [SETS_STORE.GETTERS.ONE]: state => slug => state[slug],
-  [SETS_STORE.GETTERS.ONE_TITLE]: state => slug => state[slug] ? state[slug].title : false,
-  [SETS_STORE.GETTERS.LINKS]: state => Object.values(state),
-  [SETS_STORE.GETTERS.RANDOM_QUESTIONS]: state => Object.keys(state).reduce(
-    (result, collectionKey) => {
-      const collection = state[collectionKey]
-      result[collectionKey] = {...collection, questions: _.shuffle(collection.questions)}
+  [DICES_STORE.GETTERS.PROCESSED]: state => Object.keys(state).reduce(
+    (result, diceSlug) => {
+      result[diceSlug] = processDice(state[diceSlug])
       return result
     },
     {}
   )
 }
-*/
 
 
 export default {
   state,
   mutations,
-  // getters,
+  getters,
 }
