@@ -11,9 +11,7 @@ export default {
     title: 'King of Tokyo',
     sides: [
       {content: '1-3', type: SIDES_TYPES.NUMBER_INTERVAL},
-      {content: '💗', type: SIDES_TYPES.STRING},
-      {content: '💥', type: SIDES_TYPES.STRING},
-      {content: '💲', type: SIDES_TYPES.STRING},
+      {content: '💗💥💲', type: SIDES_TYPES.SYMBOL},
     ]
   }
 }

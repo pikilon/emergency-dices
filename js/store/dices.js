@@ -31,7 +31,8 @@ const mutations = {
 }
 
 const SIZES_NEED_PROCCESING = {
-  [SIDES_TYPES.NUMBER_INTERVAL] : true
+  [SIDES_TYPES.NUMBER_INTERVAL] : true,
+  [SIDES_TYPES.SYMBOL] : true,
 }
 
 const processDice = (dice) => {
@@ -49,7 +50,9 @@ const processDice = (dice) => {
           result.push({content: lowerBound, type: SIDES_TYPES.NUMBER})
         }
       }
-
+      if (side.type === SIDES_TYPES.SYMBOL) {
+        Array.from(side.content).forEach(content => result.push({content, type: SIDES_TYPES.STRING}))
+      }
       return result
     },
     []
