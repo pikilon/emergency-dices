@@ -15,6 +15,8 @@ export default Vue.extend({
   }),
   watch: {
     slug(newSlug, oldSlug) {
+      this.diceResultsIndex = []
+      this.selectedDices = {}
       this.roll()
     }
   },
@@ -60,5 +62,24 @@ export default Vue.extend({
       )
     },
     isSelectedAvailable() { return !!Object.keys(this.selectedDices).length},
+    selectedDicesOptions: {
+      get() {
+        const selectedIndexes = Object.keys(this.selectedDices)
+        if (!selectedIndexes.length) return false
+        let lastSlug = false
+        for (let index = 0; index < selectedIndexes.length; index++) {
+          const currentSlug = this.dices[selectedIndexes[index]].slug;
+          if (!lastSlug) lastSlug = currentSlug
+          if  (lastSlug !== currentSlug) return false
+        }
+        const diceSlug = this.dices[selectedIndexes[0]].slug
+        return this.dicesMap[diceSlug].sides.map((side, index) => ({...side, index}))
+      },
+      set: function(newSideIndex) {
+        Object.keys(this.selectedDices).forEach(selectIndex => {
+          Vue.set(this.diceResultsIndex, selectIndex ,newSideIndex)
+        })
+      }
+    }
   }
 })

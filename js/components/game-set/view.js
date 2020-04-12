@@ -2,15 +2,26 @@ export const template = /*html*/
 `
  <div>
   <v-container fluid>
-    <div class="controls text-right">
-    <v-btn color="secondary" @click="roll(true)" :disabled="!isSelectedAvailable">
-      <v-icon left>mdi-dice-5</v-icon> Roll Selected
-    </v-btn>
+    <v-row class="controls" justify="space-between">
+      <v-btn color="secondary" @click="roll(true)" :disabled="!isSelectedAvailable">
+        <v-icon left>mdi-dice-5</v-icon> Roll Selected
+      </v-btn>
+      <v-autocomplete
+        :items="selectedDicesOptions"
+        v-if="selectedDicesOptions"
+        v-model="selectedDicesOptions"
+        item-text="content"
+        item-value="index"
+        class="flex-grow-0"
+        outlined
+        dense
+        label="Set Value on selected"
+      />
       <v-btn color="primary" @click="roll(false)">
         <v-icon left>mdi-dice-multiple</v-icon> Roll
       </v-btn>
 
-    </div>
+    </v-row>
 
     <v-row>
       <v-col

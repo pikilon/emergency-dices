@@ -1,7 +1,7 @@
 export default {
-  'six-sided': {
-    title: 'Six sided game',
-    slug: 'six-sided',
+  'settlers-of-catan': {
+    title: 'Settlers of catan',
+    slug: 'settlers-of-catan',
     dices: [{slug: 'six-sided', amount: 2, color: 'red'}]
   },
   'king-of-tokyo': {
