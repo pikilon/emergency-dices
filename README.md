@@ -5,7 +5,6 @@ A Vue practice to generate set of dices for board games
 
 * beauty roll process, spin and delay
 * DYNAMIC repeated dices options on gameset
-* block dices
 * results equal, sum
 * create game sets
 * create dices
