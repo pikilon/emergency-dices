@@ -23,8 +23,8 @@ export default Vue.extend({
   },
   methods: {
     roll() {
-      this.diceResultsIndex = this.dices.map((diceSlug) => {
-        const dice = this.dicesMap[diceSlug]
+      this.diceResultsIndex = this.dices.map(({slug}) => {
+        const dice = this.dicesMap[slug]
         return _.random(0, dice.sides.length -1)
       })
     },
@@ -37,6 +37,16 @@ export default Vue.extend({
       gameSet(state) {return state[GAMES_SETS_STORE.STORE][this.slug]},
       dicesMap(state) { return state[DICES_STORE.STORE]}
     }),
-    dices() { return this.gameSet.dices},
+    dices() {
+      return this.gameSet.dices.reduce(
+        (result, {amount, ...currentDice}) => {
+          for (let addedDice = 0; addedDice < amount; addedDice++) {
+            result.push(currentDice)
+          }
+          return result
+        },
+        []
+      )
+    },
   }
 })

@@ -1,12 +1,12 @@
 export default {
-  'settlers-of-catan': {
-    title: 'Settlers of Catan',
-    slug: 'settlers-of-catan',
-    dices: ['six-sided', 'six-sided']
+  'six-sided': {
+    title: 'Six sided game',
+    slug: 'six-sided',
+    dices: [{slug: 'six-sided', amount: 2, color: 'red'}]
   },
   'king-of-tokyo': {
     title: 'King of Tokyo',
     slug: 'king-of-tokyo',
-    dices: '12345'.split('').fill('king-of-tokyo')
+    dices: [{slug: 'king-of-tokyo', amount: 5}]
   }
 }

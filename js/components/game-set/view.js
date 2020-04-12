@@ -10,13 +10,13 @@ export const template = /*html*/
 
     <v-row>
       <v-col
-        v-for="(diceSlug, index) in dices"
-        :key="diceSlug + index"
+        v-for="(dice, index) in dices"
+        :key="dice.slug + index"
         cols="12"
         sm="2"
         class="d-flex justify-center"
         >
-        <dice :slug="diceSlug" :selectedSideIndex="diceResultsIndex[index]" />
+        <dice :slug="dice.slug" :selectedSideIndex="diceResultsIndex[index]"  :color="dice.color" />
       </v-col>
     </v-row>
   </v-container>
