@@ -3,9 +3,13 @@ export const template = /*html*/
  <div>
   <v-container fluid>
     <div class="controls text-right">
-      <v-btn color="primary" @click="roll">
+    <v-btn color="secondary" @click="roll(true)" :disabled="!isSelectedAvailable">
+      <v-icon left>mdi-dice-5</v-icon> Roll Selected
+    </v-btn>
+      <v-btn color="primary" @click="roll(false)">
         <v-icon left>mdi-dice-multiple</v-icon> Roll
       </v-btn>
+
     </div>
 
     <v-row>
@@ -16,7 +20,13 @@ export const template = /*html*/
         sm="2"
         class="d-flex justify-center"
         >
-        <dice :slug="dice.slug" :selectedSideIndex="diceResultsIndex[index]"  :color="dice.color" />
+        <dice
+          :slug="dice.slug"
+          :selectedSideIndex="diceResultsIndex[index]"
+          :color="dice.color"
+          v-on:dice-click="toggleSelectDice(index)"
+          :selected="selectedDices[index]"
+        />
       </v-col>
     </v-row>
   </v-container>

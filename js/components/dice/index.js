@@ -11,7 +11,8 @@ export default Vue.extend({
   props: {
     color: String,
     slug: String,
-    selectedSideIndex: 0
+    selectedSideIndex: 0,
+    selected: Boolean,
   },
   computed: {
     ...Vuex.mapGetters([DICES_STORE.GETTERS.PROCESSED]),
@@ -23,5 +24,10 @@ export default Vue.extend({
       if (!color) return undefined
       return `background-color: ${color}`
     },
-  }
+  },
+  methods: {
+    clicked() {
+      this.$emit('dice-click')
+    }
+  },
 })

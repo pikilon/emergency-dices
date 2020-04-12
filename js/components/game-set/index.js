@@ -10,7 +10,8 @@ export default Vue.extend({
   template,
   components: { dice },
   data: () => ({
-    diceResultsIndex: []
+    diceResultsIndex: [],
+    selectedDices: {},
   }),
   watch: {
     slug(newSlug, oldSlug) {
@@ -22,11 +23,20 @@ export default Vue.extend({
     this.roll()
   },
   methods: {
-    roll() {
-      this.diceResultsIndex = this.dices.map(({slug}) => {
+    roll(onlySelected) {
+      this.diceResultsIndex = this.dices.map(({slug}, index) => {
+        const shouldNotAlter = onlySelected && !this.selectedDices[index]
+        if (shouldNotAlter) return this.diceResultsIndex[index]
         const dice = this.dicesMap[slug]
         return _.random(0, dice.sides.length -1)
       })
+    },
+    toggleSelectDice(index) {
+      if (this.selectedDices[index]) {
+        Vue.delete(this.selectedDices, index)
+      } else {
+        Vue.set(this.selectedDices, index, true)
+      }
     },
   },
   props: {
@@ -49,5 +59,6 @@ export default Vue.extend({
         []
       )
     },
+    isSelectedAvailable() { return !!Object.keys(this.selectedDices).length},
   }
 })
