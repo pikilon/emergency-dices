@@ -1,37 +1,61 @@
 
-import { template } from './view.js'
+import { template, css } from './view.js'
 import { GAMES_SETS_STORE } from '../../store/games-sets.js';
 import dice from '../dice/index.js'
 import { DICES_STORE } from '../../store/dices.js';
+import cssMixin from '../../mixins/css.js'
+
+
+const getDefaultData = () => ({
+  diceResultsIndex: [],
+  selectedDices: {},
+  dicesRollingIndexes: [],
+  rollTime: 2000,
+  rollTimeOuts: false,
+});
 
 const { mapState } = Vuex;
 
 export default Vue.extend({
+  name: 'game-set',
+  css,
+  mixins: [cssMixin],
   template,
   components: { dice },
-  data: () => ({
-    diceResultsIndex: [],
-    selectedDices: {},
-  }),
+  data: getDefaultData,
   watch: {
     slug(newSlug, oldSlug) {
-      this.diceResultsIndex = []
-      this.selectedDices = {}
-      this.roll()
+      this.resetData()
+      this.diceResultsIndex = this.dices.map(() => 0)
+      clearTimeout(this.rollTimeOuts)
     }
   },
   created() {
     this.diceResultsIndex = this.dices.map(() => 0)
-    this.roll()
+  },
+  destroyed() {
+    this.resetData()
+    clearTimeout(this.rollTimeOuts)
   },
   methods: {
-    roll(onlySelected) {
+    results(onlySelected) {
       this.diceResultsIndex = this.dices.map(({slug}, index) => {
         const shouldNotAlter = onlySelected && !this.selectedDices[index]
         if (shouldNotAlter) return this.diceResultsIndex[index]
         const dice = this.dicesMap[slug]
         return _.random(0, dice.sides.length -1)
       })
+    },
+    roll(onlySelected) {
+      this.dicesRollingIndexes = this.selectedDicesIndexArray.length
+        ? this.selectedDicesIndexNumber
+        : this.dices.map((ignore,index) => index)
+
+      this.rollTimeOuts = setTimeout(() => {
+        this.results(onlySelected)
+        this.dicesRollingIndexes = []
+
+      }, this.rollTime);
     },
     toggleSelectDice(index) {
       if (this.selectedDices[index]) {
@@ -40,6 +64,7 @@ export default Vue.extend({
         Vue.set(this.selectedDices, index, true)
       }
     },
+    resetData() { Object.assign(this.$data, this.$options.data.call(this)) },
   },
   props: {
     slug: String
@@ -61,10 +86,13 @@ export default Vue.extend({
         []
       )
     },
-    isSelectedAvailable() { return !!Object.keys(this.selectedDices).length},
+
+    selectedDicesIndexArray() { return Object.keys(this.selectedDices) },
+    selectedDicesIndexNumber() { return this.selectedDicesIndexArray.map(parseFloat) },
+    isSelectedAvailable() { return !!this.selectedDicesIndexArray.length},
     selectedDicesOptions: {
       get() {
-        const selectedIndexes = Object.keys(this.selectedDices)
+        const selectedIndexes = this.selectedDicesIndexArray
         if (!selectedIndexes.length) return false
         let lastSlug = false
         for (let index = 0; index < selectedIndexes.length; index++) {
@@ -76,7 +104,7 @@ export default Vue.extend({
         return this.dicesMap[diceSlug].sides.map((side, index) => ({...side, index}))
       },
       set: function(newSideIndex) {
-        Object.keys(this.selectedDices).forEach(selectIndex => {
+        this.selectedDicesIndexArray.forEach(selectIndex => {
           Vue.set(this.diceResultsIndex, selectIndex ,newSideIndex)
         })
       }

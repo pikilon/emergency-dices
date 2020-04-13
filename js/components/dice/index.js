@@ -13,6 +13,7 @@ export default Vue.extend({
     slug: String,
     selectedSideIndex: 0,
     selected: Boolean,
+    rolling: Boolean,
   },
   computed: {
     ...Vuex.mapGetters([DICES_STORE.GETTERS.PROCESSED]),

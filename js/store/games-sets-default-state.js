@@ -7,7 +7,7 @@ export default {
   'king-of-tokyo': {
     title: 'King of Tokyo',
     slug: 'king-of-tokyo',
-    dices: [{slug: 'king-of-tokyo', amount: 5}]
+    dices: [{slug: 'king-of-tokyo', amount: 25}]
   },
   'scrabble': {
     title: 'Scrabble',

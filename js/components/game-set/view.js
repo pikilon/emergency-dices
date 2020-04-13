@@ -1,6 +1,10 @@
-export const template = /*html*/
-`
- <div>
+const block = 'game-set'
+const s = {
+  block,
+  board: 'board'
+}
+export const template = /*html*/`
+ <div class="${s.block}">
   <v-container fluid>
     <v-row class="controls" justify="space-between">
       <v-btn color="secondary" @click="roll(true)" :disabled="!isSelectedAvailable">
@@ -21,26 +25,26 @@ export const template = /*html*/
         <v-icon left>mdi-dice-multiple</v-icon> Roll
       </v-btn>
 
-    </v-row>
+      </v-row >
 
-    <v-row>
-      <v-col
-        v-for="(dice, index) in dices"
-        :key="dice.slug + index"
-        cols="12"
-        sm="2"
-        class="d-flex justify-center"
-        >
-        <dice
-          :slug="dice.slug"
-          :selectedSideIndex="diceResultsIndex[index]"
-          :color="dice.color"
-          v-on:dice-click="toggleSelectDice(index)"
-          :selected="selectedDices[index]"
-        />
-      </v-col>
-    </v-row>
-  </v-container>
+      <v-row justify="center" class="${s.board}">
+          <dice
+            v-for="(dice, index) in dices"
+            :key="dice.slug + index"
+            :slug="dice.slug"
+            :selectedSideIndex="diceResultsIndex[index]"
+            :color="dice.color"
+            v-on:dice-click="toggleSelectDice(index)"
+            :selected="selectedDices[index]"
+            :rolling="dicesRollingIndexes.includes(index)"
+          />
+
+      </v-row>
+
+
+
+        </v-container>
+
 
     <v-btn
       absolute
@@ -53,4 +57,11 @@ export const template = /*html*/
       <v-icon>mdi-plus</v-icon>
     </v-btn>
  </div>
+`
+
+export const css = /*css*/`
+  .${s.board} {
+    max-width: 20cm;
+
+  }
 `
