@@ -45,7 +45,7 @@ export const template = /*html*/`
 
         </v-container>
 
-
+    <dice-selector />
     <v-btn
       absolute
       dark

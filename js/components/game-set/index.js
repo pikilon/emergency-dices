@@ -2,6 +2,7 @@
 import { template, css } from './view.js'
 import { GAMES_SETS_STORE } from '../../store/games-sets.js';
 import dice from '../dice/index.js'
+import diceSelector from '../dice-selector/index.js'
 import { DICES_STORE } from '../../store/dices.js';
 import cssMixin from '../../mixins/css.js'
 
@@ -21,7 +22,7 @@ export default Vue.extend({
   css,
   mixins: [cssMixin],
   template,
-  components: { dice },
+  components: { dice, diceSelector },
   data: getDefaultData,
   watch: {
     slug(newSlug, oldSlug) {

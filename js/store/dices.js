@@ -11,7 +11,7 @@ export const DICES_STORE = {
     REMOVE_SIDE: `${STORE}_remove_side`,
   },
   GETTERS: {
-    PROCESSED: `get_processed_${STORE}`
+    PROCESSED: `get_processed_${STORE}`,
   }
 }
 
@@ -71,7 +71,6 @@ const getters = {
     {}
   )
 }
-
 
 export default {
   state,
