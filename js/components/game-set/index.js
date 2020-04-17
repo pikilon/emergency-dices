@@ -11,7 +11,7 @@ const getDefaultData = () => ({
   diceResultsIndex: [],
   selectedDices: {},
   dicesRollingIndexes: [],
-  rollTime: 2000,
+  rollTime: 1000,
   rollTimeOuts: false,
 });
 

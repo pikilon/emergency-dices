@@ -35,10 +35,10 @@ const SIZES_NEED_PROCCESING = {
   [SIDES_TYPES.SYMBOL] : true,
 }
 
-const processDice = (dice) => {
+const processDice = (dice, slug) => {
   const { sides, ...restDice } = dice
 
-  restDice.sides = sides.reduce(
+  const processedSides = sides.reduce(
     (result, side) => {
       if (!SIZES_NEED_PROCCESING[side.type]) {
         result.push(side)
@@ -57,15 +57,16 @@ const processDice = (dice) => {
     },
     []
   )
+  const sidesList = processedSides.map(({content}) => content).join(', ')
 
-  return restDice
+  return {slug, sidesList, sides: processedSides, ...restDice}
 
 }
 
 const getters = {
   [DICES_STORE.GETTERS.PROCESSED]: state => Object.keys(state).reduce(
     (result, diceSlug) => {
-      result[diceSlug] = processDice(state[diceSlug])
+      result[diceSlug] = processDice(state[diceSlug], diceSlug)
       return result
     },
     {}
