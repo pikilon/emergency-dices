@@ -1,36 +1,61 @@
 import { template } from "./view.js";
 import { GAMES_SETS_STORE } from "../../store/games-sets.js";
 import { DICES_STORE } from "../../store/dices.js";
+
+const getDiceSlugColor = (dice, color) => color
+                                      ? `${dice.slug}-${color}`
+                                      : dice.slug
 export default Vue.extend({
   template,
   data: () => ({
-    dices: {},
+    newGameSetDices: [],
+    diceColors: {},
+    color: '#FF00FF',
   }),
   props: {
     slug: String
   },
   created() {
-    if (this.gameSet) {
-      this.gameSet.dices.forEach(({slug, amount})=> {
-        this.$set(this.dices, slug, {dice: this.allDicesMap[slug] , amount})
-      })
+    this.refreshCurrentDices()
+  },
+  watch: {
+    slug(newSlug) {
+      this.refreshCurrentDices()
     }
   },
   methods: {
-    ...Vuex.mapMutations([GAMES_SETS_STORE.MUTATIONS.UPSERT]),
-
-    addDice(dice) {
-      const alreadyAddedDice = this.dices[dice.slug]
-      const amount = alreadyAddedDice ? alreadyAddedDice.amount + 1 : 1
-      this.$set(this.dices, dice.slug, {dice, amount})
-      this.updateGameSet()
+    ...Vuex.mapMutations([
+      GAMES_SETS_STORE.MUTATIONS.REMOVE_DICE,
+      GAMES_SETS_STORE.MUTATIONS.ADD_DICE]),
+    addDice(diceSlug, diceColor) {
+      this[GAMES_SETS_STORE.MUTATIONS.ADD_DICE]({
+        setSlug: this.slug,
+        diceSlug,
+        diceColor,
+      })
     },
-    removeDice(dice) {
-      const alreadyAddedDice = this.dices[dice.slug]
-      alreadyAddedDice.amount = alreadyAddedDice.amount - 1
-      if (!alreadyAddedDice.amount) this.$delete(this.dices, dice.slug)
-      this.updateGameSet()
+    removeDice(diceSlug, diceColor) {
+      this[GAMES_SETS_STORE.MUTATIONS.REMOVE_DICE]({
+        setSlug: this.slug,
+        diceSlug,
+        diceColor,
+      })
+    },
+    getDiceToAdd(diceSlug, diceColor) {
+      const alreadyAddedDice = this.gameSetDices.find(({slug, color})=> {
+        return diceSlug === slug && (!color || color === diceColor)
+      })
+      return alreadyAddedDice || {slug: diceSlug, amount: 0, color: diceColors[diceSlug]}
+    },
+    refreshCurrentDices() {
+      if (this.gameSet) {
+        this.dices = {}
+        this.colors = {}
+        this.gameSet.dices.forEach(({slug, amount, color})=> {
 
+          this.$set(this.dices, slug, {dice: this.allDicesMap[slug] , amount, color})
+        })
+      }
     },
     updateGameSet() {
       if (!this.gameSet) return
@@ -40,23 +65,20 @@ export default Vue.extend({
   },
   computed: {
     ...Vuex.mapGetters([DICES_STORE.GETTERS.PROCESSED]),
-    allDicesMap() { return this[DICES_STORE.GETTERS.PROCESSED]},
-
     ...Vuex.mapState({
       gameSet(state) {return this.slug && state[GAMES_SETS_STORE.STORE][this.slug]},
     }),
-    dicesArray() {
-      return Object.keys(this.dices).map(slug => ({slug, amount: this.dices[slug].amount}))
+
+
+    allDicesMap() { return this[DICES_STORE.GETTERS.PROCESSED]},
+    gameSetDices() { return this.gameSet ? this.gameSet.dices : this.newGameSetDices },
+    gameSetDicesDisplay() { return this.gameSetDices.map(
+      ({slug,...rest}) => (
+        {...this.allDicesMap[slug], ...rest}
+      ))
     },
-    availableDices() {
-      if (!Object.keys(this.dices).length) return Object.values(this.allDicesMap)
-      return Object.keys(this.allDicesMap).reduce(
-        (result, diceSlug) => {
-          if (!this.dices[diceSlug]) result.push(this.allDicesMap[diceSlug])
-          return result
-        },
-        [])
-    },
+    availableDices() { return Object.values(this.allDicesMap)},
+
 
   }
 })

@@ -15,6 +15,7 @@ export default {
     dices: [
       {slug: 'vocals', amount: 2, color: 'blue'},
       {slug: 'consonants', amount: 3},
+      {slug: 'vocals', amount: 3, color: 'green'},
       {slug: 'alphabet', amount: 1, color: 'red'},
     ]
   },
