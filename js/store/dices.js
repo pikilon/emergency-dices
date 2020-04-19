@@ -12,6 +12,7 @@ export const DICES_STORE = {
   },
   GETTERS: {
     PROCESSED: `get_processed_${STORE}`,
+    PROCESSED_ARRAY: `get_processed_array_${STORE}`,
   }
 }
 
@@ -70,7 +71,8 @@ const getters = {
       return result
     },
     {}
-  )
+  ),
+  [DICES_STORE.GETTERS.PROCESSED_ARRAY]: state => Object.values(getters[DICES_STORE.GETTERS.PROCESSED](state))
 }
 
 export default {

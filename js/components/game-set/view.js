@@ -57,14 +57,13 @@ export const template = /*html*/`
       >
         <v-icon>mdi-pencil</v-icon>
       </v-btn>
-      <v-navigation-drawer right v-model="drawer" absolute color="teal">
+      <v-navigation-drawer right v-model="drawer" width="400" absolute color="teal">
         <v-list-item>
           <v-list-item-content>
             <v-list-item-title class="title white--text">Edit Game Set</v-list-item-title>
           </v-list-item-content>
         </v-list-item>
       <dice-selector :slug="slug"/>
-
     </v-navigation-drawer>
  </v-container>
 `

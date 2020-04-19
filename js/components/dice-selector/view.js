@@ -32,42 +32,10 @@ export const template = /*html*/
     </v-btn>
   </v-list-item-action>
   </v-list-item>
-  <v-divider v-if="index + 1 < availableDices.length" :key="index"></v-divider>
+  <v-divider v-if="index + 1 < gameSetDicesDisplay.length" :key="index"></v-divider>
 </template>
 </v-list>
-<v-list>
-  <v-subheader class="title">Choose new dice color</v-subheader>
-
-  <v-list-item>
-    <v-list-item-action>
-      <v-checkbox v-model="colorEnabled" />
-    </v-list-item-action>
-    <v-list-item-content>
-      <v-color-picker flat hide-canvas hide-inputs v-model="color" :disabled="!colorEnabled"/>
-    </v-list-item-content>
-  </v-list-item>
-  <v-subheader class="title">Available Dices</v-subheader>
-</v-list>
-<v-list class="overflow-y-auto" subheader two-line>
-  <template v-for="(dice, index) in availableDices">
-    <v-list-item :key="dice.slug">
-      <v-list-item-content>
-        <v-list-item-title>
-          <v-badge dot :class="{'${s.bagde_transparent}': !colorEnabled}" :color="enabledColor">
-            {{dice.title}}
-          </v-badge>
-        </v-list-item-title>
-        <v-list-item-subtitle>{{dice.sides.length}} sides: {{dice.sidesList}}</v-list-item-subtitle>
-        </v-list-item-content>
-      <v-list-item-action>
-      <v-btn icon @click="addDice(dice.slug, enabledColor)" color="primary">
-        <v-icon>mdi-plus-box</v-icon>
-      </v-btn>
-    </v-list-item-action>
-    </v-list-item>
-    <v-divider v-if="index + 1 < availableDices.length" :key="index"></v-divider>
-  </template>
-</v-list>
+  <dice-add @add-dice="addNewDice" />
 </div>
 `
 

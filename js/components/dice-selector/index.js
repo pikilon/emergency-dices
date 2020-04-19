@@ -1,22 +1,15 @@
 import { template, css } from "./view.js";
 import { GAMES_SETS_STORE } from "../../store/games-sets.js";
+import diceAdd from '../dice-add/index.js'
 import { DICES_STORE } from "../../store/dices.js";
 import cssMixin from '../../mixins/css.js'
 
-const getDiceSlugColor = (dice, color) => color
-                                      ? `${dice.slug}-${color}`
-                                      : dice.slug
 export default Vue.extend({
   name: 'dice-selector',
   css,
+  components: {diceAdd},
   mixins: [cssMixin],
   template,
-  data: () => ({
-    newGameSetDices: [],
-    diceColors: {},
-    colorEnabled: false,
-    color: '#FF00FF',
-  }),
   props: {
     slug: String
   },
@@ -31,8 +24,16 @@ export default Vue.extend({
   methods: {
     ...Vuex.mapMutations([
       GAMES_SETS_STORE.MUTATIONS.REMOVE_DICE,
-      GAMES_SETS_STORE.MUTATIONS.ADD_DICE]),
+      GAMES_SETS_STORE.MUTATIONS.ADD_DICE]
+    ),
     addDice(diceSlug, diceColor) {
+      this[GAMES_SETS_STORE.MUTATIONS.ADD_DICE]({
+        setSlug: this.slug,
+        diceSlug,
+        diceColor,
+      })
+    },
+    addNewDice({diceSlug, diceColor}) {
       this[GAMES_SETS_STORE.MUTATIONS.ADD_DICE]({
         setSlug: this.slug,
         diceSlug,
@@ -45,12 +46,6 @@ export default Vue.extend({
         diceSlug,
         diceColor,
       })
-    },
-    getDiceToAdd(diceSlug, diceColor) {
-      const alreadyAddedDice = this.gameSetDices.find(({slug, color})=> {
-        return diceSlug === slug && (!color || color === diceColor)
-      })
-      return alreadyAddedDice || {slug: diceSlug, amount: 0, color: diceColors[diceSlug]}
     },
     refreshCurrentDices() {
       if (this.gameSet) {
@@ -82,9 +77,5 @@ export default Vue.extend({
         {...this.allDicesMap[slug], ...rest}
       ))
     },
-    availableDices() { return Object.values(this.allDicesMap)},
-    enabledColor() { return (this.colorEnabled && this.color) || 'transparent' },
-
-
   }
 })
