@@ -83,7 +83,7 @@ export default Vue.extend({
       ))
     },
     availableDices() { return Object.values(this.allDicesMap)},
-    enabledColor() { return this.colorEnabled && this.color },
+    enabledColor() { return (this.colorEnabled && this.color) || 'transparent' },
 
 
   }
