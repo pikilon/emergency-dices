@@ -1,15 +1,20 @@
-import { template } from "./view.js";
+import { template, css } from "./view.js";
 import { GAMES_SETS_STORE } from "../../store/games-sets.js";
 import { DICES_STORE } from "../../store/dices.js";
+import cssMixin from '../../mixins/css.js'
 
 const getDiceSlugColor = (dice, color) => color
                                       ? `${dice.slug}-${color}`
                                       : dice.slug
 export default Vue.extend({
+  name: 'dice-selector',
+  css,
+  mixins: [cssMixin],
   template,
   data: () => ({
     newGameSetDices: [],
     diceColors: {},
+    colorEnabled: false,
     color: '#FF00FF',
   }),
   props: {
@@ -78,6 +83,7 @@ export default Vue.extend({
       ))
     },
     availableDices() { return Object.values(this.allDicesMap)},
+    enabledColor() { return this.colorEnabled && this.color },
 
 
   }
