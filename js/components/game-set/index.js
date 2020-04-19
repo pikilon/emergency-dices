@@ -13,7 +13,7 @@ const getDefaultData = () => ({
   dicesRollingIndexes: [],
   rollTime: 1000,
   rollTimeOuts: false,
-  drawer: false,
+  editing: false,
 });
 
 const { mapState } = Vuex;
@@ -40,7 +40,7 @@ export default Vue.extend({
     clearTimeout(this.rollTimeOuts)
   },
   methods: {
-    toggleDrawer() { this.drawer = !this.drawer },
+    toggleEditing() { this.editing = !this.editing },
     results(onlySelected) {
       this.diceResultsIndex = this.dices.map(({slug}, index) => {
         const shouldNotAlter = onlySelected && !this.selectedDices[index]
@@ -60,6 +60,8 @@ export default Vue.extend({
 
       }, this.rollTime);
     },
+    cloneDice(data) { console.log('data clone dice', data);},
+    removeDice(data) { console.log('data remove dice', data);},
     toggleSelectDice(index) {
       if (this.selectedDices[index]) {
         Vue.delete(this.selectedDices, index)

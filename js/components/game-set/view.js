@@ -31,12 +31,15 @@ export const template = /*html*/`
             <dice
               v-for="(dice, index) in dices"
               :key="dice.slug + index"
+              @clone-dice="cloneDice"
+              @remove-dice="removeDice"
               :slug="dice.slug"
               :selectedSideIndex="diceResultsIndex[index]"
               :color="dice.color"
               v-on:dice-click="toggleSelectDice(index)"
               :selected="selectedDices[index]"
               :rolling="dicesRollingIndexes.includes(index)"
+              :editing="editing"
             />
 
         </v-row>
@@ -53,11 +56,11 @@ export const template = /*html*/`
         bottom
         right
         color="teal"
-        @click="toggleDrawer"
+        @click="toggleEditing"
       >
         <v-icon>mdi-pencil</v-icon>
       </v-btn>
-      <v-navigation-drawer right v-model="drawer" width="400" absolute color="teal">
+      <v-navigation-drawer right v-model="editing" width="400" absolute color="teal">
         <v-list-item>
           <v-list-item-content>
             <v-list-item-title class="title white--text">Edit Game Set</v-list-item-title>

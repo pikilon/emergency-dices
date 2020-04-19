@@ -1,6 +1,7 @@
 const block = 'dice'
 const s = {
   block,
+  wrapper: `${block}__wrapper`,
   content: `${block}__content`,
   selected: 'selected',
   rolling: 'rolling',
@@ -8,19 +9,32 @@ const s = {
 
 export const template = /*html*/
 `
- <div :class="['${s.block}', {'${s.selected}': selected, '${s.rolling}': rolling }]" :style="styles" @click="clicked">
-  <div class="${s.content}">
-    {{selectedSide.content}}
+<div class="${s.wrapper}" >
+  <div :class="['${s.block}', {'${s.selected}': selected, '${s.rolling}': rolling }]" :style="styles" @click="clicked">
+      <div class="${s.content}">
+      {{selectedSide.content}}
+      </div>
   </div>
- </div>
+  <div v-if="editing" class="d-flex justify-space-between">
+    <v-btn fab dark small color="red" @click="remove">
+      <v-icon dark>mdi-minus</v-icon>
+    </v-btn>
+    <v-btn fab dark small color="primary" @click="clone">
+      <v-icon dark>mdi-plus</v-icon>
+    </v-btn>
+  </div>
+</div>
 `
-
 
 export const css = /*css*/ `
   @keyframes rolling {
     to {
       transform: rotate(360deg)
     }
+  }
+  .${s.wrapper} {
+    margin: 0.4em;
+
   }
   .${s.block} {
     font-size: 1cm;
@@ -32,7 +46,6 @@ export const css = /*css*/ `
     border-radius: 10px;
     box-shadow: inset 0 0 1em #999;
     border: 3px solid transparent;
-    margin: 0.5em;
   }
 
   .${s.block}.${s.rolling} {

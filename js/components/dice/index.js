@@ -14,6 +14,7 @@ export default Vue.extend({
     selectedSideIndex: 0,
     selected: Boolean,
     rolling: Boolean,
+    editing: Boolean,
   },
   computed: {
     ...Vuex.mapGetters([DICES_STORE.GETTERS.PROCESSED]),
@@ -27,8 +28,8 @@ export default Vue.extend({
     },
   },
   methods: {
-    clicked() {
-      this.$emit('dice-click')
-    }
+    clicked() { this.$emit('dice-click')},
+    clone() { this.$emit('clone-dice', {diceSlug: this.slug, diceColor: this.color})},
+    remove() { this.$emit('remove-dice', {diceSlug: this.slug, diceColor: this.color})},
   },
 })
