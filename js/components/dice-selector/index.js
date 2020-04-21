@@ -26,22 +26,8 @@ export default Vue.extend({
       GAMES_SETS_STORE.MUTATIONS.REMOVE_DICE,
       GAMES_SETS_STORE.MUTATIONS.ADD_DICE]
     ),
-    addDice(diceSlug, diceColor) {
-      this[GAMES_SETS_STORE.MUTATIONS.ADD_DICE]({
-        setSlug: this.slug,
-        diceSlug,
-        diceColor,
-      })
-    },
     addNewDice({diceSlug, diceColor}) {
       this[GAMES_SETS_STORE.MUTATIONS.ADD_DICE]({
-        setSlug: this.slug,
-        diceSlug,
-        diceColor,
-      })
-    },
-    removeDice(diceSlug, diceColor) {
-      this[GAMES_SETS_STORE.MUTATIONS.REMOVE_DICE]({
         setSlug: this.slug,
         diceSlug,
         diceColor,
@@ -57,25 +43,12 @@ export default Vue.extend({
         })
       }
     },
-    updateGameSet() {
-      if (!this.gameSet) return
-      const updatedGameSet = {...this.gameSet, dices: this.dicesArray}
-      this[GAMES_SETS_STORE.MUTATIONS.UPSERT](updatedGameSet)
-    }
   },
   computed: {
     ...Vuex.mapGetters([DICES_STORE.GETTERS.PROCESSED]),
     ...Vuex.mapState({
       gameSet(state) {return this.slug && state[GAMES_SETS_STORE.STORE][this.slug]},
     }),
-
-
     allDicesMap() { return this[DICES_STORE.GETTERS.PROCESSED]},
-    gameSetDices() { return this.gameSet ? this.gameSet.dices : this.newGameSetDices },
-    gameSetDicesDisplay() { return this.gameSetDices.map(
-      ({slug,...rest}) => (
-        {...this.allDicesMap[slug], ...rest}
-      ))
-    },
   }
 })

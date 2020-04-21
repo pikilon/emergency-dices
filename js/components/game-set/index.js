@@ -25,6 +25,9 @@ export default Vue.extend({
   template,
   components: { dice, diceSelector },
   data: getDefaultData,
+  props: {
+    slug: String
+  },
   watch: {
     slug(newSlug, oldSlug) {
       this.resetData()
@@ -40,6 +43,18 @@ export default Vue.extend({
     clearTimeout(this.rollTimeOuts)
   },
   methods: {
+    ...Vuex.mapMutations([
+      GAMES_SETS_STORE.MUTATIONS.REMOVE_DICE,
+      GAMES_SETS_STORE.MUTATIONS.ADD_DICE
+    ]),
+    cloneDice(data) { this[GAMES_SETS_STORE.MUTATIONS.ADD_DICE]({
+      setSlug: this.slug,
+      ...data,
+    })},
+    removeDice(data) { this[GAMES_SETS_STORE.MUTATIONS.REMOVE_DICE]({
+      setSlug: this.slug,
+      ...data,
+    })},
     toggleEditing() { this.editing = !this.editing },
     results(onlySelected) {
       this.diceResultsIndex = this.dices.map(({slug}, index) => {
@@ -60,8 +75,6 @@ export default Vue.extend({
 
       }, this.rollTime);
     },
-    cloneDice(data) { console.log('data clone dice', data);},
-    removeDice(data) { console.log('data remove dice', data);},
     toggleSelectDice(index) {
       if (this.selectedDices[index]) {
         Vue.delete(this.selectedDices, index)
@@ -70,9 +83,6 @@ export default Vue.extend({
       }
     },
     resetData() { Object.assign(this.$data, this.$options.data.call(this)) },
-  },
-  props: {
-    slug: String
   },
   computed: {
     ...Vuex.mapGetters([DICES_STORE.GETTERS.PROCESSED]),
