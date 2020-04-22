@@ -11,7 +11,8 @@ export default Vue.extend({
   mixins: [cssMixin],
   template,
   props: {
-    slug: String
+    slug: String,
+    open: Boolean,
   },
   created() {
     this.refreshCurrentDices()

@@ -14,6 +14,12 @@ export default Vue.extend({
   mixins: [cssMixin],
   template,
   components: { diceSelector },
+  data: () => ({
+    title: ''
+  }),
+  created() {
+    if (this.gameSet) this.title = this.gameSet.title
+  },
   methods: {
     ...Vuex.mapMutations([
       GAMES_SETS_STORE.MUTATIONS.REMOVE_DICE,
@@ -22,7 +28,10 @@ export default Vue.extend({
   },
   computed: {
     slug() {return this.$route.params.gameSetSlug },
+    ...Vuex.mapState({
+      gameSet(state){ return this.$route.params.gameSetSlug && state[GAMES_SETS_STORE.STORE][this.slug]}
+    }),
     isNew() { return !this.slug },
-    title() { return this.isNew ? 'New Game Set' : 'Edit Game Set' },
+    hint() { return this.slug },
   }
 })

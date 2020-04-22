@@ -60,7 +60,7 @@ export const template = /*html*/`
       >
         <v-icon>mdi-pencil</v-icon>
       </v-btn>
-      <v-navigation-drawer right v-model="editing" width="400" absolute color="teal">
+      <v-navigation-drawer right v-model="editing" width="400" absolute >
         <game-set-editor />
     </v-navigation-drawer>
  </v-container>

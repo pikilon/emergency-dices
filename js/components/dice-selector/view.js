@@ -8,7 +8,7 @@ const s = {
 
 export const template = /*html*/
 `<div class="${block}">
-  <dice-add @add-dice="addNewDice" />
+  <dice-add @add-dice="addNewDice" :open="open"/>
 </div>
 `
 
