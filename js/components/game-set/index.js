@@ -3,6 +3,7 @@ import { template, css } from './view.js'
 import { GAMES_SETS_STORE } from '../../store/games-sets.js';
 import dice from '../dice/index.js'
 import diceSelector from '../dice-selector/index.js'
+import gameSetEditor from '../game-set-editor/index.js'
 import { DICES_STORE } from '../../store/dices.js';
 import cssMixin from '../../mixins/css.js'
 
@@ -19,7 +20,7 @@ const getDefaultData = () => ({
   dicesRollingIndexes: [],
   rollTime: 1000,
   rollTimeOuts: false,
-  editing: false,
+  editing: true,
 });
 
 const { mapState } = Vuex;
@@ -29,7 +30,7 @@ export default Vue.extend({
   css,
   mixins: [cssMixin],
   template,
-  components: { dice, diceSelector },
+  components: { dice, gameSetEditor },
   data: getDefaultData,
   props: {
     slug: String
