@@ -6,10 +6,16 @@ import diceSelector from '../dice-selector/index.js'
 import { DICES_STORE } from '../../store/dices.js';
 import cssMixin from '../../mixins/css.js'
 
+const ROLLING = {
+  FALSE: false,
+  ALL: 'ALL',
+  SELECTED: 'SELECTED',
+}
 
 const getDefaultData = () => ({
   diceResultsIndex: [],
   selectedDices: {},
+  isRolling: ROLLING.FALSE,
   dicesRollingIndexes: [],
   rollTime: 1000,
   rollTimeOuts: false,
@@ -65,13 +71,11 @@ export default Vue.extend({
       })
     },
     roll(onlySelected) {
-      this.dicesRollingIndexes = this.selectedDicesIndexArray.length
-        ? this.selectedDicesIndexNumber
-        : this.dices.map((ignore,index) => index)
+      this.isRolling = onlySelected ? ROLLING.SELECTED : ROLLING.ALL
 
       this.rollTimeOuts = setTimeout(() => {
         this.results(onlySelected)
-        this.dicesRollingIndexes = []
+        this.isRolling = ROLLING.FALSE
 
       }, this.rollTime);
     },
@@ -104,7 +108,16 @@ export default Vue.extend({
 
     selectedDicesIndexArray() { return Object.keys(this.selectedDices) },
     selectedDicesIndexNumber() { return this.selectedDicesIndexArray.map(parseFloat) },
-    isSelectedAvailable() { return !!this.selectedDicesIndexArray.length},
+    isSelectedAvailable() { return this.selectedDicesIndexArray.length > 0 },
+    allDicesIndexes() { return this.dices.reduce((result, dice, index) => {
+      result[index] = true
+      return result
+    }, {})
+    },
+    rollingDices() {
+      if (!this.isRolling) return {}
+      return (this.isRolling === ROLLING.SELECTED) ? this.selectedDices : this.allDicesIndexes
+    },
     selectedDicesOptions: {
       get() {
         const selectedIndexes = this.selectedDicesIndexArray

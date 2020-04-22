@@ -38,7 +38,7 @@ export const template = /*html*/`
               :color="dice.color"
               v-on:dice-click="toggleSelectDice(index)"
               :selected="selectedDices[index]"
-              :rolling="dicesRollingIndexes.includes(index)"
+              :rolling="rollingDices[index]"
               :editing="editing"
             />
 
