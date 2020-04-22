@@ -13,6 +13,7 @@ export const DICES_STORE = {
   GETTERS: {
     PROCESSED: `get_processed_${STORE}`,
     PROCESSED_ARRAY: `get_processed_array_${STORE}`,
+    FREE_SLUG: `get_${STORE}_free_slug`,
   }
 }
 
@@ -72,7 +73,8 @@ const getters = {
     },
     {}
   ),
-  [DICES_STORE.GETTERS.PROCESSED_ARRAY]: state => Object.values(getters[DICES_STORE.GETTERS.PROCESSED](state))
+  [DICES_STORE.GETTERS.PROCESSED_ARRAY]: state => Object.values(getters[DICES_STORE.GETTERS.PROCESSED](state)),
+  [DICES_STORE.GETTERS.FREE_SLUG]: state => title => slugFinder(state, _.kebabCase(title)),
 }
 
 export default {

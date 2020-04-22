@@ -1,4 +1,5 @@
 import state from './games-sets-default-state.js'
+import { slugFinder } from '../helpers/slugFinder.js'
 const STORE = 'games_sets'
 export const GAMES_SETS_STORE = {
   STORE,
@@ -10,6 +11,7 @@ export const GAMES_SETS_STORE = {
   },
   GETTERS: {
     ARRAY: `get_${STORE}_array`,
+    FREE_SLUG: `get_${STORE}_free_slug`,
   }
 }
 const getExistingDice = (dices, diceSlug, diceColor) => dices.find(
@@ -47,6 +49,7 @@ const mutations = {
 
 const getters = {
   [GAMES_SETS_STORE.GETTERS.ARRAY]: state => Object.values(state),
+  [GAMES_SETS_STORE.GETTERS.FREE_SLUG]: state => title => slugFinder(state, _.kebabCase(title)),
 }
 
 export default {
