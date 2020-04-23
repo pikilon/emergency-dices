@@ -8,6 +8,10 @@ import cssMixin from '../../mixins/css.js'
 
 const { mapState } = Vuex;
 
+const rules = {
+  required: value => value.length >= 4 || 'The title has to be over 4 chars',
+}
+
 export default Vue.extend({
   name: 'game-set-editor',
   css,
@@ -15,7 +19,8 @@ export default Vue.extend({
   template,
   components: { diceSelector },
   data: () => ({
-    title: ''
+    title: '',
+    titleRules: [rules.required],
   }),
   created() {
     if (this.gameSet) this.title = this.gameSet.title
@@ -27,11 +32,21 @@ export default Vue.extend({
     ]),
   },
   computed: {
+    ...Vuex.mapGetters({getFreeSlug: GAMES_SETS_STORE.GETTERS.FREE_SLUG}),
     slug() {return this.$route.params.gameSetSlug },
     ...Vuex.mapState({
       gameSet(state){ return this.$route.params.gameSetSlug && state[GAMES_SETS_STORE.STORE][this.slug]}
     }),
     isNew() { return !this.slug },
-    hint() { return this.slug },
+    titleHasChanged() {
+      if (!rules.required(this.title)) return false
+      const isDifferent = this.isNew || this.title !== this.gameSet.title
+      return isDifferent
+    },
+    newSlug() {
+      return this.titleHasChanged
+        ? this.getFreeSlug(this.title)
+        : this.slug
+    },
   }
 })

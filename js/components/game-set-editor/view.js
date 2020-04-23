@@ -11,7 +11,7 @@ export const template = /*html*/`
     </v-container>
     <v-list-item >
       <v-list-item-content>
-        <v-text-field v-model="title" label="Game set title" :hint="hint"/>
+        <v-text-field v-model="title" label="Game set title" :hint="newSlug" :rules="titleRules" />
       </v-list-item-content>
     </v-list-item>
 
