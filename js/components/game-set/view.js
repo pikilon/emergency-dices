@@ -31,8 +31,6 @@ export const template = /*html*/`
             <dice
               v-for="(dice, index) in dices"
               :key="dice.slug + index"
-              @clone-dice="cloneDice"
-              @remove-dice="removeDice"
               :slug="dice.slug"
               :selectedSideIndex="diceResultsIndex[index]"
               :color="dice.color"

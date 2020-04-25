@@ -15,14 +15,6 @@ export const template = /*html*/
       {{selectedSide.content}}
       </div>
   </div>
-  <div v-if="editing" class="d-flex justify-space-between">
-    <v-btn fab dark small color="red" @click="remove">
-      <v-icon dark>mdi-minus</v-icon>
-    </v-btn>
-    <v-btn fab dark small color="primary" @click="clone">
-      <v-icon dark>mdi-plus</v-icon>
-    </v-btn>
-  </div>
 </div>
 `
 

@@ -50,18 +50,6 @@ export default Vue.extend({
     clearTimeout(this.rollTimeOuts)
   },
   methods: {
-    ...Vuex.mapMutations([
-      GAMES_SETS_STORE.MUTATIONS.REMOVE_DICE,
-      GAMES_SETS_STORE.MUTATIONS.ADD_DICE
-    ]),
-    cloneDice(data) { this[GAMES_SETS_STORE.MUTATIONS.ADD_DICE]({
-      setSlug: this.slug,
-      ...data,
-    })},
-    removeDice(data) { this[GAMES_SETS_STORE.MUTATIONS.REMOVE_DICE]({
-      setSlug: this.slug,
-      ...data,
-    })},
     toggleEditing() { this.editing = !this.editing },
     results(onlySelected) {
       this.diceResultsIndex = this.dices.map(({slug}, index) => {

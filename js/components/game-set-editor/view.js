@@ -1,9 +1,5 @@
-const block = 'game-set-editor'
-const s = {
-  block,
-}
 export const template = /*html*/`
-  <v-card flat class="${s.block}" tile>
+  <v-card flat tile>
     <v-toolbar color="teal">
       <v-toolbar-title class="white--text">Edit game set</v-toolbar-title>
     </v-toolbar>
@@ -14,14 +10,7 @@ export const template = /*html*/`
         <v-text-field v-model="title" label="Game set title" :hint="newSlug" :rules="titleRules" />
       </v-list-item-content>
     </v-list-item>
-
+    <game-set-dices v-if="slug" :slug="slug" />
     <dice-selector v-if="slug" :slug="slug" :open="isNew" />
   </v-card>
 `
-
-export const css = /*css*/`
-  .${s.block} {
-
-  }
-`
-//
