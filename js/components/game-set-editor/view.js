@@ -32,7 +32,7 @@ export const template = /*html*/`
         </v-list-item-content>
       </v-list-item>
       <game-set-dices :slug="slug" />
-      <dice-selector :slug="slug" :open="isNew" />
+      <dice-selector :slug="slug" :open="addDiceOpen" />
     </div>
   </v-card>
 `

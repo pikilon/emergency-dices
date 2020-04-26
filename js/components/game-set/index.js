@@ -31,7 +31,15 @@ export default Vue.extend({
   mixins: [cssMixin],
   template,
   components: { dice, gameSetEditor },
-  data: getDefaultData,
+  data: () => ({
+    diceResultsIndex: [],
+    selectedDices: {},
+    isRolling: ROLLING.FALSE,
+    dicesRollingIndexes: [],
+    rollTime: 1000,
+    rollTimeOuts: false,
+    editing: false,
+  }),
   props: {
     slug: String
   },
@@ -39,18 +47,23 @@ export default Vue.extend({
     slug(newSlug, oldSlug) {
       this.resetData()
       this.diceResultsIndex = this.dices.map(() => 0)
+    if (this.noDices) this.editing = true
+
       clearTimeout(this.rollTimeOuts)
     }
   },
   created() {
     this.diceResultsIndex = this.dices.map(() => 0)
+    if (this.noDices) this.editing = true
   },
   destroyed() {
     this.resetData()
     clearTimeout(this.rollTimeOuts)
   },
   methods: {
-    toggleEditing() { this.editing = !this.editing },
+    toggleEditing() {
+      if (this.dices.length <= 0) return
+      this.editing = !this.editing },
     results(onlySelected) {
       this.diceResultsIndex = this.dices.map(({slug}, index) => {
         const shouldNotAlter = onlySelected && !this.selectedDices[index]
@@ -94,7 +107,7 @@ export default Vue.extend({
         []
       )
     },
-
+    noDices() { return this.dices.length <= 0},
     selectedDicesIndexArray() { return Object.keys(this.selectedDices) },
     selectedDicesIndexNumber() { return this.selectedDicesIndexArray.map(parseFloat) },
     isSelectedAvailable() { return this.selectedDicesIndexArray.length > 0 },

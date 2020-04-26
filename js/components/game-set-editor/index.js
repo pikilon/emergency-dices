@@ -43,6 +43,7 @@ export default Vue.extend({
         : []
      },
     isNew() { return !this.slug },
+    addDiceOpen() { return this.gameSet.dices.length <=0 },
     titleHasChanged() {
       if (this.title.length <= 4 ) return false
       const isDifferent = this.isNew || this.title !== this.gameSet.title
