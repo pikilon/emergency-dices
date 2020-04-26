@@ -44,7 +44,7 @@ export default Vue.extend({
      },
     isNew() { return !this.slug },
     titleHasChanged() {
-      if (!rules.required(this.title)) return false
+      if (this.title.length <= 4 ) return false
       const isDifferent = this.isNew || this.title !== this.gameSet.title
       return isDifferent
     },
@@ -53,7 +53,8 @@ export default Vue.extend({
       ? this.getFreeSlug(this.title)
       : this.slug
     },
-    slugHint() { return `slug: ${this.newSlug}`}
+    slugHint() { return `slug: ${this.newSlug}`},
+    editorTitle() { return this.isNew ? 'Create a game set' : 'Edit game set'},
   },
 
   methods: {
@@ -61,9 +62,10 @@ export default Vue.extend({
         GAMES_SETS_STORE.MUTATIONS.UPSERT,
         GAMES_SETS_STORE.MUTATIONS.DELETE
       ]),
-      createCopy() {
+      newGameSet() {
         if (!this.titleHasChanged) return
-        const newGameSet = {...this.gameSet, title: this.title, slug: this.newSlug}
+        const dices = this.gameSet ? [...this.gameSet.dices] : []
+        const newGameSet = {title: this.title, slug: this.newSlug, dices}
         this[GAMES_SETS_STORE.MUTATIONS.UPSERT](newGameSet)
         this.$router.push(`/${newGameSet.slug}`)
       },
@@ -74,7 +76,7 @@ export default Vue.extend({
       },
       changeTitle() {
         const oldSlug = this.slug
-        this.createCopy()
+        this.newGameSet()
         this.delete(oldSlug)
       },
       refresh() {
