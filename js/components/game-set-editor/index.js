@@ -15,22 +15,28 @@ const rules = {
 export default Vue.extend({
   template,
   components: { diceSelector, gameSetDices },
+  props: {
+    slug: String
+  },
   data: () => ({
     title: '',
     titleRules: [rules.required],
   }),
+  watch: {
+    slug(newSlug) {
+      this.refresh()
+    }
+  },
   created() {
-    if (this.gameSet) this.title = this.gameSet.title
+    this.refresh()
   },
   computed: {
     ...Vuex.mapGetters({
       getFreeSlug: GAMES_SETS_STORE.GETTERS.FREE_SLUG,
       allDicesMap: DICES_STORE.GETTERS.PROCESSED,
     }),
-    slug() {return this.$route.params.gameSetSlug },
-    ...Vuex.mapState({
-      gameSet(state){ return this.$route.params.gameSetSlug && state[GAMES_SETS_STORE.STORE][this.slug]},
-    }),
+    ...Vuex.mapState([GAMES_SETS_STORE.STORE]),
+    gameSet() { return this[GAMES_SETS_STORE.STORE][this.slug] },
     currentDices() {
       return this.gameSet
         ? this.gameSet.dices.map(dice => ({...dice, ...this.allDicesMap[dice.slug]}))
@@ -52,16 +58,23 @@ export default Vue.extend({
 
   methods: {
       ...Vuex.mapMutations([
-        GAMES_SETS_STORE.MUTATIONS.UPSERT
+        GAMES_SETS_STORE.MUTATIONS.UPSERT,
+        GAMES_SETS_STORE.MUTATIONS.DELETE
       ]),
-      changeTitle() {
+      createCopy() {
         if (!this.titleHasChanged) return
         const newGameSet = {...this.gameSet, title: this.title, slug: this.newSlug}
         this[GAMES_SETS_STORE.MUTATIONS.UPSERT](newGameSet)
         this.$router.push(`/${newGameSet.slug}`)
-
-
       },
+      changeTitle() {
+        const oldSlug = this.slug
+        this.createCopy()
+        this[GAMES_SETS_STORE.MUTATIONS.DELETE](oldSlug)
+      },
+      refresh() {
+        if (this.gameSet) this.title = this.gameSet.title
+      }
 
   },
 })

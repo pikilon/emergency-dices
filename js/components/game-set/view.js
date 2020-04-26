@@ -42,8 +42,6 @@ export const template = /*html*/`
 
         </v-row>
 
-
-
           </v-container>
 
 
@@ -59,7 +57,7 @@ export const template = /*html*/`
         <v-icon>mdi-pencil</v-icon>
       </v-btn>
       <v-navigation-drawer right v-model="editing" width="400" absolute >
-        <game-set-editor />
+        <game-set-editor :slug="slug" />
     </v-navigation-drawer>
  </v-container>
 `

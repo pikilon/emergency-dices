@@ -19,15 +19,18 @@ const getExistingDice = (dices, diceSlug, diceColor) => dices.find(
   )
 
 const mutations = {
-  [GAMES_SETS_STORE.MUTATIONS.UPSERT]: function(state, newSet) {
+  [GAMES_SETS_STORE.MUTATIONS.UPSERT]: function(state, newSetBinded) {
+    const newSet = JSON.parse(JSON.stringify(newSetBinded))
     Vue.set(state, newSet.slug, newSet)
   },
   [GAMES_SETS_STORE.MUTATIONS.DELETE]: function(state, setSlug) {
     Vue.delete(state, setSlug)
   },
   [GAMES_SETS_STORE.MUTATIONS.ADD_DICE]: function(state, {setSlug, diceSlug, diceColor}) {
-    const dices = state[setSlug].dices
-    const existingDice = getExistingDice(dices, diceSlug, diceColor)
+    const gameSet = state[setSlug]
+
+    const { dices } = gameSet
+    const existingDice = getExistingDice([...dices], diceSlug, diceColor)
     if (existingDice) {
       existingDice.amount += 1
     } else {

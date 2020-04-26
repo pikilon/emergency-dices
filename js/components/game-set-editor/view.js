@@ -11,8 +11,11 @@ export const template = /*html*/`
       </v-list-item-content>
     </v-list-item>
     <v-list-item>
-      <v-list-item-content>
-        <v-btn :disabled="!titleHasChanged" color="primary" @click="changeTitle">Update Title</v-btn>
+      <v-list-item-content class="text-center">
+        <div className="text-center">
+          <v-btn small class="ma-2" :disabled="!titleHasChanged" color="secondary" @click="createCopy">Save as copy</v-btn>
+          <v-btn small class="ma-2" :disabled="!titleHasChanged" color="primary" @click="changeTitle">Update Title</v-btn>
+        </div>
       </v-list-item-content>
     </v-list-item>
     <game-set-dices v-if="slug" :slug="slug" />
