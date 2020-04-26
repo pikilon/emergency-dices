@@ -67,10 +67,15 @@ export default Vue.extend({
         this[GAMES_SETS_STORE.MUTATIONS.UPSERT](newGameSet)
         this.$router.push(`/${newGameSet.slug}`)
       },
+      delete(slug) {this[GAMES_SETS_STORE.MUTATIONS.DELETE](slug)},
+      deleteCurrent() {
+        this.$router.push(`/`)
+        this.delete(this.slug)
+      },
       changeTitle() {
         const oldSlug = this.slug
         this.createCopy()
-        this[GAMES_SETS_STORE.MUTATIONS.DELETE](oldSlug)
+        this.delete(oldSlug)
       },
       refresh() {
         if (this.gameSet) this.title = this.gameSet.title
