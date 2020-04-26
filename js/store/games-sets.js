@@ -4,7 +4,7 @@ const STORE = 'games_sets'
 export const GAMES_SETS_STORE = {
   STORE,
   MUTATIONS : {
-    UPSERT: `${STORE}_new`,
+    UPSERT: `${STORE}_upsert`,
     DELETE: `${STORE}_delete`,
     ADD_DICE: `${STORE}_add_dice`,
     REMOVE_DICE: `${STORE}_remove_dice`,

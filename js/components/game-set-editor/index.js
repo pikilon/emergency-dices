@@ -44,8 +44,24 @@ export default Vue.extend({
     },
     newSlug() {
       return this.titleHasChanged
-        ? this.getFreeSlug(this.title)
-        : this.slug
+      ? this.getFreeSlug(this.title)
+      : this.slug
     },
-  }
+    slugHint() { return `slug: ${this.newSlug}`}
+  },
+
+  methods: {
+      ...Vuex.mapMutations([
+        GAMES_SETS_STORE.MUTATIONS.UPSERT
+      ]),
+      changeTitle() {
+        if (!this.titleHasChanged) return
+        const newGameSet = {...this.gameSet, title: this.title, slug: this.newSlug}
+        this[GAMES_SETS_STORE.MUTATIONS.UPSERT](newGameSet)
+        this.$router.push(`/${newGameSet.slug}`)
+
+
+      },
+
+  },
 })
