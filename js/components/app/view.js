@@ -11,7 +11,7 @@ export const template = /*html*/
   </v-app-bar>
 
   <v-content>
-    <v-container fluid >
+    <v-container fluid class="d-flex justify-center">
     <game-set v-if="gameSet" :slug="gameSet.slug" />
     <game-set-editor v-else />
 
