@@ -4,6 +4,7 @@ import { GAMES_SETS_STORE } from '../../store/games-sets.js';
 import diceSelector from '../dice-selector/index.js'
 import gameSetDices from '../game-set-dices/index.js'
 import { DICES_STORE } from '../../store/dices.js';
+import { ROUTES } from '../../constants/routes.js';
 
 
 const { mapState } = Vuex;
@@ -68,7 +69,7 @@ export default Vue.extend({
         const dices = this.gameSet ? [...this.gameSet.dices] : []
         const newGameSet = {title: this.title, slug: this.newSlug, dices}
         this[GAMES_SETS_STORE.MUTATIONS.UPSERT](newGameSet)
-        this.$router.push(`/${newGameSet.slug}`)
+        this.$router.push(`${ROUTES.GAME_SET}/${newGameSet.slug}`)
       },
       delete(slug) {this[GAMES_SETS_STORE.MUTATIONS.DELETE](slug)},
       deleteCurrent() {
