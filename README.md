@@ -1,12 +1,30 @@
-# emergency-dices
+# Emergency dices
 A Vue practice to generate set of dices for board games
 
-fail animation on rolls
+## Features (functional)
+ * Create/Edit Game sets
+ * create dices (TODO)
+ * roll all/selected dices on a gameset
+ * add different colors dices to game sets
+ * add different colors to a dice side
+ * Can use emojis, numbers, symbols in dice sides
+ * Generate sides from intervals or charStrings
+
+
+## Technical features
+ * No `npm` all libraries combined and minified by  [jsdelivr.com](https://www.jsdelivr.com/)
+ * No bundler used, only source `js` files with `native imports`
+ * Creates a `CSS` mixin to load `css` dinamically, selectors are shared and can be reused for automation tests.
+ * Loads Markdown asynchronously, for example **to load this document**.
+ * Stores `Vuex` updates on persitence layer (when will be enabled)
+ * Constants instead of typing the site
 
 ## TODO
 
-* results equal, sum
-* create game sets
-* create dices
+* new dice interface
+* titles mixin to pages
+* enable persitence
+
+* adaptative dices (for bigger content)
+* results equal, sum also custom
 * export import
-* rules counting to eval

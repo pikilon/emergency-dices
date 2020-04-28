@@ -12,10 +12,7 @@ export const template = /*html*/
 
   <v-content>
     <v-container fluid class="d-flex justify-center">
-    <game-set v-if="gameSet" :slug="gameSet.slug" />
-    <game-set-editor v-else />
-
-
+      <router-view />
     </v-container>
   </v-content>
   <v-footer color="indigo" app>

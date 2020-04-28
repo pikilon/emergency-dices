@@ -6,6 +6,14 @@ export const template = /*html*/
 <v-list>
   <v-list-item tag="router-link" to="/">
     <v-list-item-icon>
+      <v-icon>mdi-home</v-icon>
+    </v-list-item-icon>
+    <v-list-item-content>
+      <v-list-item-title>Emergency dices</v-list-item-title>
+    </v-list-item-content>
+  </v-list-item>
+  <v-list-item tag="router-link" to="${ROUTES.NEW_GAME_SET}">
+    <v-list-item-icon>
       <v-icon>mdi-pen</v-icon>
     </v-list-item-icon>
     <v-list-item-content>

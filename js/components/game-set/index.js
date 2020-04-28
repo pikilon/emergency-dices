@@ -40,18 +40,6 @@ export default Vue.extend({
     rollTimeOuts: false,
     editing: false,
   }),
-  props: {
-    slug: String
-  },
-  watch: {
-    slug(newSlug, oldSlug) {
-      this.resetData()
-      this.diceResultsIndex = this.dices.map(() => 0)
-    if (this.noDices) this.editing = true
-
-      clearTimeout(this.rollTimeOuts)
-    }
-  },
   created() {
     this.diceResultsIndex = this.dices.map(() => 0)
     if (this.noDices) this.editing = true
@@ -95,6 +83,7 @@ export default Vue.extend({
     ...mapState({
       gameSet(state) {return state[GAMES_SETS_STORE.STORE][this.slug]},
     }),
+    slug() { return this.$route.params.gameSetSlug },
     dicesMap() { return this[DICES_STORE.GETTERS.PROCESSED]},
     dices() {
       return this.gameSet.dices.reduce(

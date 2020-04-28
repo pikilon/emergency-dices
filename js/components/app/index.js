@@ -3,14 +3,13 @@ import navigation from "../navigation/index.js";
 import { GAMES_SETS_STORE } from "../../store/games-sets.js";
 import gameSet from "../game-set/index.js"
 import gameSetEditor from "../game-set-editor/index.js"
+import markdownLoader from "../markdown-loader/index.js"
+import router from '../../routes/index.js'
 
 export default Vue.extend({
   template,
-  components: { navigation, gameSet, gameSetEditor },
-  mounted(){
-    // const wrongSlug = this.collectionSlug && !this.title
-    // if (wrongSlug) console.log("redirect")
-  },
+  router,
+  components: { navigation, gameSet, gameSetEditor, markdownLoader },
   data: () => ({
     drawer: null,
   }),
