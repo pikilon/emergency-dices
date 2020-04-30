@@ -130,7 +130,7 @@ export default Vue.extend({
         const diceSlug = this.dices[selectedIndexes[0]].slug
         return this.dicesMap[diceSlug].sides.map((side, index) => ({...side, index}))
       },
-      set: function(newSideIndex) {
+      set(newSideIndex) {
         this.selectedDicesIndexArray.forEach(selectIndex => {
           Vue.set(this.diceResults, selectIndex , this.dices[selectIndex].sides[newSideIndex].content.toString())
         })

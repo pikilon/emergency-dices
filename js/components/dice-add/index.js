@@ -2,6 +2,7 @@ import { template, css } from "./view.js";
 import { GAMES_SETS_STORE } from "../../store/games-sets.js";
 import { DICES_STORE } from "../../store/dices.js";
 import cssMixin from '../../mixins/css.js'
+import { ROUTES } from "../../constants/routes.js";
 
 export default Vue.extend({
   name: 'dice-add',
@@ -19,6 +20,9 @@ export default Vue.extend({
   methods: {
     addDice(diceSlug, diceColor) {
       this.$emit('add-dice', {diceSlug, diceColor})
+    },
+    editDice(diceSlug) {
+      this.$router.push(`${ROUTES.DICE_EDITOR}/${diceSlug}`)
     },
   },
   computed: {

@@ -3,8 +3,6 @@ export const template = /*html*/`
     <v-toolbar color="teal">
       <v-toolbar-title class="white--text">{{editorTitle}}</v-toolbar-title>
     </v-toolbar>
-    <v-container>
-    </v-container>
     <v-list-item >
       <v-list-item-content>
         <v-text-field v-model="title" label="Game set title" :hint="slugHint" :rules="titleRules" />
