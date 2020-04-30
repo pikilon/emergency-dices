@@ -1,5 +1,5 @@
 import state from './dices-default-state.js'
-import { SIDES_TYPES } from '../constants/index.js'
+import { SIDES_TYPES } from '../constants/SIDE_TYPES.js'
 
 const STORE = 'dices'
 export const DICES_STORE = {

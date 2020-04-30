@@ -5,7 +5,7 @@ import diceSelector from '../dice-selector/index.js'
 import gameSetDices from '../game-set-dices/index.js'
 import { DICES_STORE } from '../../store/dices.js';
 import { ROUTES } from '../../constants/routes.js';
-import { VALIDATION_RULES } from '../../constants/validationRules.js';
+import { VALIDATION_RULES } from '../../constants/VALIDATION_RULES.js';
 
 
 const { mapState } = Vuex;

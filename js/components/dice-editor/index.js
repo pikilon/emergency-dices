@@ -1,6 +1,6 @@
 import { DICES_STORE, processDice } from "../../store/dices.js";
 import { template } from "./view.js";
-import { VALIDATION_RULES } from "../../constants/validationRules.js";
+import { VALIDATION_RULES } from "../../constants/VALIDATION_RULES.js";
 import sideGenerator from "../side-generator/index.js";
 
 

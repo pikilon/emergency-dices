@@ -1,4 +1,4 @@
-import {SIDES_TYPES} from '../constants/index.js'
+import {SIDES_TYPES} from '../constants/SIDE_TYPES.js'
 
 export default {
   'six-sided': {
