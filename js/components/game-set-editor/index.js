@@ -5,6 +5,7 @@ import diceSelector from '../dice-selector/index.js'
 import gameSetDices from '../game-set-dices/index.js'
 import { DICES_STORE } from '../../store/dices.js';
 import { ROUTES } from '../../constants/routes.js';
+import { VALIDATION_RULES } from '../../constants/validationRules.js';
 
 
 const { mapState } = Vuex;
@@ -21,7 +22,9 @@ export default Vue.extend({
   },
   data: () => ({
     title: '',
-    titleRules: [rules.required],
+    rules: {
+      title: [VALIDATION_RULES.REQUIRED]
+    },
   }),
   watch: {
     slug(newSlug) {
@@ -46,7 +49,7 @@ export default Vue.extend({
     isNew() { return !this.slug },
     addDiceOpen() { return this.gameSet.dices.length <=0 },
     titleHasChanged() {
-      if (this.title.length <= 4 ) return false
+      if (VALIDATION_RULES.REQUIRED(this.title)) return false
       const isDifferent = this.isNew || this.title !== this.gameSet.title
       return isDifferent
     },

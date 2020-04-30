@@ -5,7 +5,7 @@ export const template = /*html*/`
     </v-toolbar>
     <v-list-item >
       <v-list-item-content>
-        <v-text-field v-model="title" label="Game set title" :hint="slugHint" :rules="titleRules" />
+        <v-text-field v-model="title" label="Game set title" :hint="slugHint" :rules="rules.title" />
       </v-list-item-content>
     </v-list-item>
 
