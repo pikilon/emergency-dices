@@ -1,4 +1,4 @@
-const block = 'dice'
+const block = 'side'
 const s = {
   block,
   wrapper: `${block}__wrapper`,

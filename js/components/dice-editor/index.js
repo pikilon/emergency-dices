@@ -1,13 +1,11 @@
-import diceSide from "../dice-side/index.js"
-import { DICES_STORE } from "../../store/dices.js";
+import { DICES_STORE, processDice } from "../../store/dices.js";
 import { template } from "./view.js";
 import { VALIDATION_RULES } from "../../constants/validationRules.js";
-
-
+import sideGenerator from "../side-generator/index.js";
 
 
 export default Vue.extend({
-  components: { diceSide },
+  components: { sideGenerator },
   template,
   data() {return ({
     title: String,
@@ -32,13 +30,14 @@ export default Vue.extend({
     },
   },
   computed: {
-      ...Vuex.mapGetters([DICES_STORE.GETTERS.PROCESSED]),
-      allDicesMap() {return this[DICES_STORE.GETTERS.PROCESSED]},
+      ...Vuex.mapState({ allDices: DICES_STORE.STORE}),
+      ...Vuex.mapGetters({ processedDicesMap: DICES_STORE.GETTERS.PROCESSED }),
       routeSlug() { return this.$route.params.diceSlug },
-      storeDice() { return this.routeSlug && this.allDicesMap[this.routeSlug]},
+      storeDice() { return this.routeSlug && this.allDices[this.routeSlug]},
+      sideGroups() { return this.storeDice ? this.storeDice.sides : []},
       isNew() { return !this.routeSlug},
       diceChanged() { return this.isNew || this.slug !== this.routeSlug},
-      existingDice() { return this.allDicesMap[this.slug]},
+      existingDice() { return this.allDices[this.slug]},
       titleSlug: {
         get() {return this.title},
         set(title) {
@@ -46,5 +45,10 @@ export default Vue.extend({
           this.slug = _.kebabCase(title)
         },
       },
+      currentDice() {
+        const {title, slug, sides} = this
+        return {title, slug, sides}
+      },
+      processedDice() { return processDice(this.currentDice) },
   },
 })

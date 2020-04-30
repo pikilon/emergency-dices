@@ -4,7 +4,7 @@ import { DICES_STORE } from '../../store/dices.js';
 import cssMixin from '../../mixins/css.js'
 
 export default Vue.extend({
-  name: 'dice',
+  name: 'side',
   css,
   mixins: [cssMixin],
   template,
@@ -17,8 +17,7 @@ export default Vue.extend({
   computed: {
 
     styles() {
-      const color = this.color || false
-      if (!color) return undefined
+      const color = this.color || 'white'
       return `background-color: ${color}`
     },
   },

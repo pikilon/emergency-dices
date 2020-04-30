@@ -37,32 +37,31 @@ const SIZES_NEED_PROCCESING = {
   [SIDES_TYPES.SYMBOL] : true,
 }
 
-const processDice = (dice, slug) => {
-  const { sides, ...restDice } = dice
-
-  const processedSides = sides.reduce(
-    (result, side) => {
-      if (!SIZES_NEED_PROCCESING[side.type]) {
-        result.push(side)
-        return result
-      }
-      if (side.type === SIDES_TYPES.NUMBER_INTERVAL) {
-        let [lowerBound, upperBound] = side.content.split('-')
-        for (lowerBound; lowerBound <= upperBound; lowerBound++) {
-          result.push({content: lowerBound, type: SIDES_TYPES.NUMBER})
-        }
-      }
-      if (side.type === SIDES_TYPES.SYMBOL) {
-        Array.from(side.content).forEach(content => result.push({content, type: SIDES_TYPES.STRING}))
-      }
+export const processSides = (sides) => sides.reduce(
+  (result, side) => {
+    if (!SIZES_NEED_PROCCESING[side.type]) {
+      result.push(side)
       return result
-    },
-    []
-  )
+    }
+    if (side.type === SIDES_TYPES.NUMBER_INTERVAL) {
+      let [lowerBound, upperBound] = side.content.split('-')
+      for (lowerBound; lowerBound <= upperBound; lowerBound++) {
+        result.push({content: lowerBound.toString(), type: SIDES_TYPES.NUMBER})
+      }
+    }
+    if (side.type === SIDES_TYPES.SYMBOL) {
+      Array.from(side.content).forEach(content => result.push({content, type: SIDES_TYPES.STRING}))
+    }
+    return result
+  },
+  []
+)
+
+export const processDice = (dice, slug) => {
+  const { sides, ...restDice } = dice
+  const processedSides = processSides(sides)
   const sidesList = processedSides.map(({content}) => content).join(', ')
-
   return {slug, sidesList, sides: processedSides, ...restDice}
-
 }
 
 const getters = {
