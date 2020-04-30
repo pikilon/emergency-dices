@@ -1,7 +1,7 @@
 
 import { template, css } from './view.js'
 import { GAMES_SETS_STORE } from '../../store/games-sets.js';
-import dice from '../dice/index.js'
+import dice from '../dice-side/index.js'
 import diceSelector from '../dice-selector/index.js'
 import gameSetEditor from '../game-set-editor/index.js'
 import { DICES_STORE } from '../../store/dices.js';
@@ -14,7 +14,6 @@ const ROLLING = {
 }
 
 const getDefaultData = () => ({
-  diceResultsIndex: [],
   selectedDices: {},
   isRolling: ROLLING.FALSE,
   dicesRollingIndexes: [],
@@ -32,7 +31,7 @@ export default Vue.extend({
   template,
   components: { dice, gameSetEditor },
   data: () => ({
-    diceResultsIndex: [],
+    diceResults: [],
     selectedDices: {},
     isRolling: ROLLING.FALSE,
     dicesRollingIndexes: [],
@@ -41,11 +40,14 @@ export default Vue.extend({
     editing: false,
   }),
   created() {
-    this.diceResultsIndex = this.dices.map(() => 0)
-    if (this.noDices) this.editing = true
+    this.resetGameSet()
+  },
+  watch: {
+    $route() {
+      this.resetGameSet()
+    }
   },
   destroyed() {
-    this.resetData()
     clearTimeout(this.rollTimeOuts)
   },
   methods: {
@@ -53,12 +55,14 @@ export default Vue.extend({
       if (this.dices.length <= 0) return
       this.editing = !this.editing },
     results(onlySelected) {
-      this.diceResultsIndex = this.dices.map(({slug}, index) => {
+      this.diceResults = this.dices.map(({slug, sides}, index) => {
         const shouldNotAlter = onlySelected && !this.selectedDices[index]
-        if (shouldNotAlter) return this.diceResultsIndex[index]
-        const dice = this.dicesMap[slug]
-        return _.random(0, dice.sides.length -1)
+        if (shouldNotAlter) return this.diceResults[index]
+        const randomSideIndex = _.random(0, sides.length -1)
+        const value = sides[randomSideIndex].content.toString()
+        return value
       })
+
     },
     roll(onlySelected) {
       this.isRolling = onlySelected ? ROLLING.SELECTED : ROLLING.ALL
@@ -76,7 +80,10 @@ export default Vue.extend({
         Vue.set(this.selectedDices, index, true)
       }
     },
-    resetData() { Object.assign(this.$data, this.$options.data.call(this)) },
+    resetGameSet() {
+      this.diceResults = this.dices.map(({sides}) => sides[0].content.toString())
+      if (this.noDices) this.editing = true
+    },
   },
   computed: {
     ...Vuex.mapGetters([DICES_STORE.GETTERS.PROCESSED]),
@@ -87,9 +94,10 @@ export default Vue.extend({
     dicesMap() { return this[DICES_STORE.GETTERS.PROCESSED]},
     dices() {
       return this.gameSet.dices.reduce(
-        (result, {amount, ...currentDice}) => {
+        (result, {amount,...dice}, index) => {
           for (let addedDice = 0; addedDice < amount; addedDice++) {
-            result.push(currentDice)
+            const currentDice = {...dice, ...this.dicesMap[dice.slug]}
+            result.push({...currentDice})
           }
           return result
         },
@@ -124,7 +132,7 @@ export default Vue.extend({
       },
       set: function(newSideIndex) {
         this.selectedDicesIndexArray.forEach(selectIndex => {
-          Vue.set(this.diceResultsIndex, selectIndex ,newSideIndex)
+          Vue.set(this.diceResults, selectIndex , this.dices[selectIndex].sides[newSideIndex].content.toString())
         })
       }
     }

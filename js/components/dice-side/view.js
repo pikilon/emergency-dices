@@ -12,7 +12,7 @@ export const template = /*html*/
 <div class="${s.wrapper}" >
   <div :class="['${s.block}', {'${s.selected}': selected, '${s.rolling}': rolling }]" :style="styles" @click="clicked">
       <div class="${s.content}">
-      {{selectedSide.content}}
+      {{result}}
       </div>
   </div>
 </div>
