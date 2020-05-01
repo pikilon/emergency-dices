@@ -17,7 +17,17 @@ export default Vue.extend({
     type: {type: String, default: SIDES_TYPES.NUMBER_INTERVAL},
     color: String,
   },
+  methods: {
+    sendContent(content) { console.log('content', content);},
+    sendInterval(min, max) {
+      const content = [min,max].join(',')
+      this.sendContent(content)
+    },
+  },
   computed: {
+    isInterval() {return this.type === SIDES_TYPES.NUMBER_INTERVAL},
+    isString() {return this.type === SIDES_TYPES.STRING},
+    isSymbol() {return this.type === SIDES_TYPES.SYMBOL},
     processedSides() {
       const {content, type, color} = this
       const processedSides = processSides([{content, type, color}])
@@ -25,7 +35,7 @@ export default Vue.extend({
     },
     intervals() {
       const finalContent = this.content || DEFAULT_VALUES.SIDES.CONTENT[SIDES_TYPES.NUMBER_INTERVAL]
-      return finalContent.split('-')
+      return finalContent.split(',')
     },
     min: {
       get() {
@@ -33,9 +43,11 @@ export default Vue.extend({
         return min
       },
       set(min) {
-        const initialMax = this.max
+        min = parseInt(min)
+        const initialMax = parseInt(this.max)
         const max = !initialMax || (initialMax <= min) ? min + 3 : initialMax
-        this.content = [min,max].join('-')
+        this.sendInterval(min,max)
+
       },
     },
     max: {
@@ -44,9 +56,10 @@ export default Vue.extend({
         return max
       },
       set(max) {
-        const initialMin = this.min
+        max = parseInt(max)
+        const initialMin = parseInt(this.min)
         const min = !initialMin || (initialMin >= max) ? max - 3 : initialMin
-        this.content = [min,max].join('-')
+        this.sendInterval(min,max)
       },
     },
   }
