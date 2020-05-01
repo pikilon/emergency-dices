@@ -4,7 +4,6 @@ import { template, css } from './view.js'
 import { SIDES_TYPES } from "../../constants/SIDE_TYPES.js"
 import cssMixin from '../../mixins/css.js'
 import { DEFAULT_VALUES } from "../../constants/DEFAULT_VALUES.js"
-import { PATTERNS } from "../../constants/PATTERNS.js"
 
 export default Vue.extend({
   name: 'side-generator',
@@ -16,12 +15,17 @@ export default Vue.extend({
     content: {type: String, default: DEFAULT_VALUES.SIDES.CONTENT[SIDES_TYPES.NUMBER_INTERVAL]},
     type: {type: String, default: SIDES_TYPES.NUMBER_INTERVAL},
     color: String,
+    index: Number,
   },
   methods: {
-    sendContent(content) { console.log('content', content);},
+    sendContent(partial) {
+      const {content, type, color, index} = this
+      const completeSide = {content, type, color, ...partial}
+      this.$emit('setSide', index, completeSide)
+    },
     sendInterval(min, max) {
       const content = [min,max].join(',')
-      this.sendContent(content)
+      this.sendContent({content})
     },
   },
   computed: {

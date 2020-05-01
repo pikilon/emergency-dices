@@ -28,6 +28,7 @@ export default Vue.extend({
     refreshDice() {
       if (this.routeSlug) this.loadStoreData()
     },
+    setSide(index, side) { Vue.set(this.sides, index, side) },
   },
   computed: {
       ...Vuex.mapState({ allDices: DICES_STORE.STORE}),

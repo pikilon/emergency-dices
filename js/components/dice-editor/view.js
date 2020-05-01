@@ -12,11 +12,13 @@ export const template = /*html*/`
     <h2 class="title ${s.totalSidesTitle}">Total sides: {{processedDice.sides.length}}</h2>
     <div class="${s.sides}">
       <h2 class="title ${s.sideGroupsTitle}">Sides groups</h2>
-      <side-generator v-for="sideGroup in sideGroups"
+      <side-generator v-for="(sideGroup, index) in sideGroups"
         :key="sideGroup.color+sideGroup.content"
         :content="sideGroup.content"
         :type="sideGroup.type"
         :color="sideGroup.color"
+        :index="index"
+        @setSide="setSide"
       />
     </div>
   </div>

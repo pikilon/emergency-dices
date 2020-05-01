@@ -1,3 +1,3 @@
 export const PATTERNS = {
-  NUMBER_INTERVAL:  /(\d+)-(\d+)/
+  NUMBER_INTERVAL:  /(\d+),(\d+)/
 }
