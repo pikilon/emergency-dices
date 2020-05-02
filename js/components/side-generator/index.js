@@ -43,7 +43,15 @@ export default Vue.extend({
     isSymbol() {return this.type === SIDES_TYPES.SYMBOL},
     processedSides() {
       const {content, type, color} = this
-      const processedSides = processSides([{content, type, color}])
+      let processedSides = processSides([{content, type, color}])
+      const isUltraBig = processedSides.length > 60
+      if (isUltraBig) {
+        const first = processedSides[0]
+        const ellipsis = {...first, content: '...'}
+        const last = processedSides[processedSides.length - 1]
+        processedSides = [first, ellipsis, last]
+
+      }
       return processedSides
     },
     intervals() {

@@ -2,14 +2,12 @@ const block = 'side-generator'
 const s =  {
   block,
   big: `${block}--big`,
-  ultrabig: `${block}--ultrabig`,
   content: `${block}__content`,
-
   sides: `${block}__sides`,
 }
 
 export const template = /*html*/`
-  <div :class="['${s.block}', {['${s.big}']: processedSides.length > 6, ['${s.ultrabig}']: processedSides.length > 70}]">
+  <div :class="['${s.block}', {['${s.big}']: processedSides.length > 6}]">
     <v-autocomplete
       :items="sideTypesArray"
 
@@ -52,14 +50,5 @@ export const css = /*css*/ `
     .${s.big} .${s.sides} > :nth-child(n+2):hover {
       z-index: 1;
     }
-  .${s.ultrabig} .${s.sides} > :nth-child(n+3) {
-    display: none;
-
-  }
-  .${s.ultrabig} .${s.sides} > :last-child {
-    display:block;
-    margin-left: 0.4em;
-
-  }
 
 `
