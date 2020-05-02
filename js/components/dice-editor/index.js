@@ -2,6 +2,7 @@ import { DICES_STORE, processDice } from "../../store/dices.js";
 import { template } from "./view.js";
 import { VALIDATION_RULES } from "../../constants/VALIDATION_RULES.js";
 import sideGenerator from "../side-generator/index.js";
+import { SIDES_TYPES } from "../../constants/SIDE_TYPES.js";
 
 
 export default Vue.extend({
@@ -13,7 +14,8 @@ export default Vue.extend({
     sides: [],
     rules: {
       title: [VALIDATION_RULES.MINIMUM_FOUR]
-    }
+    },
+    newSide: {content: '1,6', type: SIDES_TYPES.NUMBER_INTERVAL },
 
   })},
   created() {
@@ -30,6 +32,8 @@ export default Vue.extend({
     },
     setSide(index, side) { Vue.set(this.sides, index, side) },
     deleteSide(index) { Vue.delete(this.sides, index) },
+    setNewSide(newSide) { this.newSide = newSide },
+    addNewSide() { this.sides.push(this.newSide)    }
   },
   computed: {
       ...Vuex.mapState({ allDices: DICES_STORE.STORE}),

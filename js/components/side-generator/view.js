@@ -8,20 +8,30 @@ const s =  {
 
 export const template = /*html*/`
   <v-card :class="['${s.block}', {['${s.big}']: processedSidesEllipsis.length > 5}]">
-    <v-card-text v-if="isNew">
-      <v-autocomplete :items="sideTypesArray" v-model="sideType" item-text="label" item-value="value" dense
-        label="Side type" />
-    </v-card-text>
+    <v-toolbar v-if="isNew" color="indigo" dark>
+      <v-btn color="teal" fab dark small @click="$emit('addNewSide')" :disabled="isNewReady">
+        <v-icon>mdi-plus</v-icon>
+      </v-btn>
+      <v-card-title color="indigo" dark>
+        <v-badge color="teal" :content="processedSides.length" >
+          New sides
+        </v-badge>
+      </v-card-title>
+    </v-toolbar>
     <v-toolbar v-else color="indigo" dark>
-    <v-btn color="error" fab dark small @click="deleteSide">
-      <v-icon>mdi-delete</v-icon>
-    </v-btn>
+      <v-btn color="error" fab dark small @click="deleteSide">
+        <v-icon>mdi-delete</v-icon>
+      </v-btn>
       <v-card-title color="indigo" dark>
         <v-badge color="teal" :content="processedSides.length" >
           {{sideTypeTitle}}
         </v-badge>
       </v-card-title>
     </v-toolbar>
+    <v-card-text v-if="isNew">
+    <v-autocomplete :items="sideTypesArray" v-model="sideType" item-text="label" item-value="value" dense
+        label="Side type" />
+    </v-card-text>
     <div class="${s.sides}">
       <dice-side v-for="(side, index) in processedSidesEllipsis" :key="index + side.content" :result="side.content"
         :color="side.color" />

@@ -1,3 +1,5 @@
+import { SIDES_TYPES } from "../../constants/SIDE_TYPES.js"
+
 const block = 'dice-editor'
 const s =  {
   block,
@@ -14,8 +16,14 @@ export const template = /*html*/`
         Sides
       </v-badge>
     </h2>
-
-      <v-flex xs12>
+        <v-col>
+          <side-generator
+            isNew
+            v-model="newSide"
+            @addNewSide="addNewSide"
+          />
+        </v-col>
+        <div class="d-flex flex-column-reverse">
         <v-col v-for="(sideGroup, index) in sideGroups" :key="index">
           <side-generator
             :content="sideGroup.content"
@@ -26,7 +34,8 @@ export const template = /*html*/`
             @deleteSide="deleteSide"
           />
         </v-col>
-      </v-flex>
+        </div>
+
 
   </div>
 `

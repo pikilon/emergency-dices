@@ -98,6 +98,7 @@ export default Vue.extend({
     },
     sideTypesMap() {return SIDE_TYPES_MAP},
     sideTypesArray() {return Object.values(this.sideTypesMap)},
-    sideTypeTitle() { return this.sideTypesMap[this.type].label}
+    sideTypeTitle() { return this.sideTypesMap[this.type].label},
+    isNewReady() { return this.processedSides.length <= 0 },
   }
 })
