@@ -15,7 +15,7 @@ export default Vue.extend({
     rules: {
       title: [VALIDATION_RULES.MINIMUM_FOUR]
     },
-    newSide: {content: '1,6', type: SIDES_TYPES.NUMBER_INTERVAL },
+    newSide: {},
 
   })},
   created() {
@@ -32,8 +32,10 @@ export default Vue.extend({
     },
     setSide(index, side) { Vue.set(this.sides, index, side) },
     deleteSide(index) { Vue.delete(this.sides, index) },
-    setNewSide(newSide) { this.newSide = newSide },
-    addNewSide() { this.sides.push(this.newSide)    }
+    setNewSide(newSide) {
+      this.newSide = newSide
+     },
+    addNewSide() { this.sides.push(this.newSide)}
   },
   computed: {
       ...Vuex.mapState({ allDices: DICES_STORE.STORE}),

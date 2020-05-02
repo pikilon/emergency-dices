@@ -8,10 +8,10 @@ import { VALIDATION_RULES } from "../../constants/VALIDATION_RULES.js"
 
 
 const SIDE_TYPES_MAP = {
-  [SIDES_TYPES.STRING]: {value: SIDES_TYPES.STRING, label: 'A Word', hint: 'Small Word for the side', rules: [VALIDATION_RULES.REQUIRED, VALIDATION_RULES.MAX_FOUR], type: 'text'},
-  [SIDES_TYPES.NUMBER]: {value: SIDES_TYPES.NUMBER, label: 'A Number', hint: 'A single number', rules: [VALIDATION_RULES.REQUIRED, VALIDATION_RULES.MAX_FOUR], type: 'number'},
-  [SIDES_TYPES.SYMBOL]: {value: SIDES_TYPES.SYMBOL, label: 'Symbols', hint: 'Every character will be a side', rules: [VALIDATION_RULES.REQUIRED], type: 'text'},
-  [SIDES_TYPES.NUMBER_INTERVAL]: {value: SIDES_TYPES.NUMBER_INTERVAL, label: 'Number interval', hint: 'A interval of numbers'},
+  [SIDES_TYPES.STRING]: {value: SIDES_TYPES.STRING, label: 'A Word', inputLabel: 'Small Word for the side', rules: [VALIDATION_RULES.REQUIRED, VALIDATION_RULES.MAX_FOUR], type: 'text'},
+  [SIDES_TYPES.NUMBER]: {value: SIDES_TYPES.NUMBER, label: 'A Number', inputLabel: 'A single number', rules: [VALIDATION_RULES.REQUIRED, VALIDATION_RULES.MAX_FOUR], type: 'number'},
+  [SIDES_TYPES.SYMBOL]: {value: SIDES_TYPES.SYMBOL, label: 'Symbols', inputLabel: 'Every character will be a side', rules: [VALIDATION_RULES.REQUIRED], type: 'text'},
+  [SIDES_TYPES.NUMBER_INTERVAL]: {value: SIDES_TYPES.NUMBER_INTERVAL, label: 'Number interval', inputLabel: 'A interval of numbers'},
 }
 
 export default Vue.extend({
@@ -31,7 +31,12 @@ export default Vue.extend({
     sendSide(partial) {
       const {content, type, color, index} = this
       const completeSide = {content, type, color, ...partial}
-      this.$emit('setSide', index, completeSide)
+      if (this.isNew) {
+        this.sendSideNew(completeSide)
+      } else {
+        this.$emit('setSide', index, completeSide)
+
+      }
     },
     sendInterval(min, max) {
       const content = [min,max].join(',')
@@ -40,6 +45,12 @@ export default Vue.extend({
     deleteSide() {
       this.$emit('deleteSide', this.index)
     },
+    sendSideNew(newSide) {
+
+      const typeChanged = newSide.type !== this.type
+      if (typeChanged) newSide.content = ''
+      this.$emit('setNewSide', newSide)
+    }
   },
   computed: {
     isInterval() {return this.type === SIDES_TYPES.NUMBER_INTERVAL},
@@ -47,6 +58,7 @@ export default Vue.extend({
     isSymbol() {return this.type === SIDES_TYPES.SYMBOL},
     processedSides() {
       const {content, type, color} = this
+      if (!content) return []
       let processedSides = processSides([{content, type, color}])
       return processedSides
     },

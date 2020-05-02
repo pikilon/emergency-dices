@@ -37,11 +37,11 @@ export const template = /*html*/`
         :color="side.color" />
     </div>
     <v-card-actions v-if="isInterval">
-      <v-text-field v-model="min" label="Low bound" class="ma-2" type="number" />
-      <v-text-field v-model="max" label="High bound" class="ma-2" type="number" />
+      <v-text-field v-model="min" label="Low bound" class="ma-2" pattern="\d+"  maxlength="4"/>
+      <v-text-field v-model="max" label="High bound" class="ma-2" pattern="\d+"  maxlength="4" />
     </v-card-actions>
     <v-card-actions v-else>
-      <v-text-field v-model="sideContent" label="other content" />
+      <v-text-field v-model="sideContent" :label="sideTypesMap[type].inputLabel" :rules="sideTypesMap[type].rules" maxlength="4" />
     </v-card-actions>
   </v-card>
 `

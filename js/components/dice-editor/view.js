@@ -19,8 +19,10 @@ export const template = /*html*/`
         <v-col>
           <side-generator
             isNew
-            v-model="newSide"
+            :content="newSide.content"
+            :type="newSide.type"
             @addNewSide="addNewSide"
+            @setNewSide="setNewSide"
           />
         </v-col>
         <div class="d-flex flex-column-reverse">
