@@ -37,6 +37,9 @@ export default Vue.extend({
       const content = [min,max].join(',')
       this.sendSide({content})
     },
+    deleteSide() {
+      this.$emit('deleteSide', this.index)
+    },
   },
   computed: {
     isInterval() {return this.type === SIDES_TYPES.NUMBER_INTERVAL},

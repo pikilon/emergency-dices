@@ -13,6 +13,9 @@ export const template = /*html*/`
         label="Side type" />
     </v-card-text>
     <v-toolbar v-else color="indigo" dark>
+    <v-btn color="error" fab dark small @click="deleteSide">
+      <v-icon>mdi-delete</v-icon>
+    </v-btn>
       <v-card-title color="indigo" dark>
         <v-badge color="teal" :content="processedSides.length" >
           {{sideTypeTitle}}

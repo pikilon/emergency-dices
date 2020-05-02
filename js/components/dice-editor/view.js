@@ -23,6 +23,7 @@ export const template = /*html*/`
             :color="sideGroup.color"
             :index="index"
             @setSide="setSide"
+            @deleteSide="deleteSide"
           />
         </v-col>
       </v-flex>
