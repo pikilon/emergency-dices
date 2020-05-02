@@ -25,6 +25,7 @@ export default Vue.extend({
     type: {type: String, default: SIDES_TYPES.NUMBER_INTERVAL},
     color: String,
     index: Number,
+    isNew: Boolean,
   },
   methods: {
     sendSide(partial) {
@@ -93,5 +94,6 @@ export default Vue.extend({
     },
     sideTypesMap() {return SIDE_TYPES_MAP},
     sideTypesArray() {return Object.values(this.sideTypesMap)},
+    sideTypeTitle() { return this.sideTypesMap[this.type].label}
   }
 })
