@@ -12,7 +12,7 @@ export default Vue.extend({
     slug: String,
     sides: [],
     rules: {
-      title: [VALIDATION_RULES.REQUIRED]
+      title: [VALIDATION_RULES.MINIMUM_FOUR]
     }
 
   })},

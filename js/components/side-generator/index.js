@@ -4,6 +4,15 @@ import { template, css } from './view.js'
 import { SIDES_TYPES } from "../../constants/SIDE_TYPES.js"
 import cssMixin from '../../mixins/css.js'
 import { DEFAULT_VALUES } from "../../constants/DEFAULT_VALUES.js"
+import { VALIDATION_RULES } from "../../constants/VALIDATION_RULES.js"
+
+
+const SIDE_TYPES_MAP = {
+  [SIDES_TYPES.STRING]: {value: SIDES_TYPES.STRING, label: 'A Word', hint: 'Small Word for the side', rules: [VALIDATION_RULES.REQUIRED, VALIDATION_RULES.MAX_FOUR], type: 'text'},
+  [SIDES_TYPES.NUMBER]: {value: SIDES_TYPES.NUMBER, label: 'A Number', hint: 'A single number', rules: [VALIDATION_RULES.REQUIRED, VALIDATION_RULES.MAX_FOUR], type: 'number'},
+  [SIDES_TYPES.SYMBOL]: {value: SIDES_TYPES.SYMBOL, label: 'Symbols', hint: 'Every character will be a side', rules: [VALIDATION_RULES.REQUIRED], type: 'text'},
+  [SIDES_TYPES.NUMBER_INTERVAL]: {value: SIDES_TYPES.NUMBER_INTERVAL, label: 'Number interval', hint: 'A interval of numbers'},
+}
 
 export default Vue.extend({
   name: 'side-generator',
@@ -18,14 +27,14 @@ export default Vue.extend({
     index: Number,
   },
   methods: {
-    sendContent(partial) {
+    sendSide(partial) {
       const {content, type, color, index} = this
       const completeSide = {content, type, color, ...partial}
       this.$emit('setSide', index, completeSide)
     },
     sendInterval(min, max) {
       const content = [min,max].join(',')
-      this.sendContent({content})
+      this.sendSide({content})
     },
   },
   computed: {
@@ -66,5 +75,15 @@ export default Vue.extend({
         this.sendInterval(min,max)
       },
     },
+    sideContent: {
+      get() { return this.content },
+      set(content) {this.sendSide({content})},
+    },
+    sideType: {
+      get() { return this.type },
+      set(type) {this.sendSide({type})},
+    },
+    sideTypesMap() {return SIDE_TYPES_MAP},
+    sideTypesArray() {return Object.values(this.sideTypesMap)},
   }
 })

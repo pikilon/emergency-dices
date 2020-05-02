@@ -4,17 +4,30 @@ const s =  {
   big: `${block}--big`,
   ultrabig: `${block}--ultrabig`,
   content: `${block}__content`,
-  group: `${block}__side_group`,
+
   sides: `${block}__sides`,
 }
 
 export const template = /*html*/`
   <div :class="['${s.block}', {['${s.big}']: processedSides.length > 6, ['${s.ultrabig}']: processedSides.length > 70}]">
-    <div class="${s.group}">
-      <v-row v-if="isInterval" class="${s.content}">
+    <v-autocomplete
+      :items="sideTypesArray"
+
+      v-model="sideType"
+      item-text="label"
+      item-value="value"
+
+      dense
+      label="Side type"
+    />
+  <v-row v-if="isInterval" class="${s.content}">
         <v-text-field v-model="min" label="Low bound" class="ma-2" type="number"/>
         <v-text-field v-model="max" label="High bound" class="ma-2" type="number"/>
       </v-row>
+      <v-row v-else class="${s.content}">
+        <v-text-field v-model="sideContent" label="other content" />
+      </v-row>
+
       <div class="${s.sides}">
         <dice-side v-for="(side, index) in processedSides"
           :key="index + side.content"
@@ -22,7 +35,7 @@ export const template = /*html*/`
           :color="side.color"
         />
       </div>
-    </div>
+
   </div>
 `
 
