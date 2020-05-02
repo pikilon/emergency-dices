@@ -45,15 +45,16 @@ export default Vue.extend({
     processedSides() {
       const {content, type, color} = this
       let processedSides = processSides([{content, type, color}])
-      const isUltraBig = processedSides.length > 60
-      if (isUltraBig) {
-        const first = processedSides[0]
-        const ellipsis = {...first, content: '...'}
-        const last = processedSides[processedSides.length - 1]
-        processedSides = [first, ellipsis, last]
-
-      }
       return processedSides
+    },
+    processedSidesEllipsis() {
+      const {processedSides} = this
+      const doesntNeedEllipsis = processedSides.length <= 60
+      if (doesntNeedEllipsis) return processedSides
+      const first = processedSides[0]
+      const ellipsis = {...first, content: '...'}
+      const last = processedSides[processedSides.length - 1]
+      return [first, ellipsis, last]
     },
     intervals() {
       const finalContent = this.content || DEFAULT_VALUES.SIDES.CONTENT[SIDES_TYPES.NUMBER_INTERVAL]
