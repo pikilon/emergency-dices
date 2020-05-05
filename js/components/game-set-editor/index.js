@@ -23,7 +23,7 @@ export default Vue.extend({
   data: () => ({
     title: '',
     rules: {
-      title: [VALIDATION_RULES.REQUIRED]
+      title: [VALIDATION_RULES.REQUIRED, VALIDATION_RULES.MINIMUM_FOUR]
     },
   }),
   watch: {
@@ -49,7 +49,8 @@ export default Vue.extend({
     isNew() { return !this.slug },
     addDiceOpen() { return this.gameSet.dices.length <=0 },
     titleHasChanged() {
-      if (VALIDATION_RULES.REQUIRED(this.title)) return false
+      const noValidTitle = !VALIDATION_RULES.MINIMUM_FOUR(this.title)
+      if (noValidTitle) return false
       const isDifferent = this.isNew || this.title !== this.gameSet.title
       return isDifferent
     },
@@ -58,7 +59,7 @@ export default Vue.extend({
       ? this.getFreeSlug(this.title)
       : this.slug
     },
-    slugHint() { return `slug: ${this.newSlug}`},
+    slugHint() { return this.newSlug && `slug: ${this.newSlug}`},
     editorTitle() { return this.isNew ? 'Create a game set' : 'Edit game set'},
   },
 
