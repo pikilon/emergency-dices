@@ -11,7 +11,7 @@ export const template = /*html*/`
 
     <v-list-item v-if="isNew">
       <v-list-item-content>
-        <v-btn tile :disabled="!titleHasChanged" color="success" :dark="titleHasChanged"
+        <v-btn tile :disabled="!isValidTitle" color="success" :dark="isValidTitle"
           @click="newGameSet">
           <v-icon left>mdi-pencil</v-icon>
           Create Game Set
