@@ -1,12 +1,16 @@
-import { template } from "./view.js"
+import { template, css } from "./view.js"
 import navigation from "../navigation/index.js";
 import { GAMES_SETS_STORE } from "../../store/games-sets.js";
 import gameSet from "../game-set/index.js"
 import gameSetEditor from "../game-set-editor/index.js"
 import markdownLoader from "../markdown-loader/index.js"
 import router from '../../routes/index.js'
+import cssMixin from '../../mixins/css.js'
 
 export default Vue.extend({
+  name: 'app',
+  css,
+  mixins: [cssMixin],
   template,
   router,
   components: { navigation, gameSet, gameSetEditor, markdownLoader },

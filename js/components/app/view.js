@@ -20,3 +20,10 @@ export const template = /*html*/
   </v-footer>
 </v-app>
 `
+
+export const css = /*css*/`
+  html, body {
+    overflow-x: hidden;
+  }
+
+`
