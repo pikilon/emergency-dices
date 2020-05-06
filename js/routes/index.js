@@ -7,6 +7,7 @@ import diceEditor from '../components/dice-editor/index.js'
 
 const routes = [
   {path: `${ROUTES.DICE_EDITOR}/:diceSlug?`, component: diceEditor},
+  {path: ROUTES.NEW_DICE, component: diceEditor},
   {path: ROUTES.NEW_GAME_SET, component: gameSetEditor},
   {path: `${ROUTES.GAME_SET}/:gameSetSlug?`, component: gameSet},
   {path: `/`, component: home},
