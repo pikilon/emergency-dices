@@ -47,7 +47,7 @@ export default Vue.extend({
       diceChanged() { return this.isNew || this.slug !== this.routeSlug},
       existingDice() { return this.allDices[this.slug]},
       titleSlug: {
-        get() {return this.title},
+        get() {return this.isNew ? '' : this.title},
         set(title) {
           this.title = title
           this.slug = _.kebabCase(title)

@@ -11,7 +11,18 @@ const s =  {
 export const template = /*html*/`
   <div class="${s.block}">
     <v-text-field v-model="titleSlug" label="Dice Title" :rules="rules.title"/>
-    <h2 class="title ${s.totalSidesTitle}">
+    <v-row class="controls" justify="space-between">
+      <v-btn color="secondary" v-if="!isNew">
+        <v-icon left>mdi-dice-5</v-icon> Save a copy
+      </v-btn>
+
+      <v-btn color="primary" >
+        <v-icon left>mdi-floppy</v-icon> Save
+      </v-btn>
+
+    </v-row >
+
+    <h2 v-if="sides.length" class="title ${s.totalSidesTitle}">
       <v-badge color="teal" :content="processedDice.sides.length" >
         Sides
       </v-badge>

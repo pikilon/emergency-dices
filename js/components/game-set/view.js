@@ -5,7 +5,6 @@ const s = {
 }
 export const template = /*html*/`
  <v-container class="${s.block}">
-    <v-container fluid>
       <v-row class="controls" justify="space-between">
         <v-btn color="secondary" @click="roll(true)" :disabled="!isSelectedAvailable">
           <v-icon left>mdi-dice-5</v-icon> Roll Selected
@@ -41,9 +40,6 @@ export const template = /*html*/`
             />
 
         </v-row>
-
-          </v-container>
-
 
       <v-btn
         absolute
