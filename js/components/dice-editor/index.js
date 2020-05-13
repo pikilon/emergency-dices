@@ -3,6 +3,7 @@ import { template } from "./view.js";
 import { VALIDATION_RULES } from "../../constants/VALIDATION_RULES.js";
 import sideGenerator from "../side-generator/index.js";
 import { SIDES_TYPES } from "../../constants/SIDE_TYPES.js";
+import { ROUTES } from "../../constants/routes.js";
 
 
 export default Vue.extend({
@@ -22,6 +23,7 @@ export default Vue.extend({
     this.refreshDice()
   },
   methods: {
+    ...Vuex.mapMutations([DICES_STORE.MUTATIONS.NEW_TITLE]),
     loadStoreData() {
       Object.keys(this.storeDice).forEach(key => {
         this[key] = this.storeDice[key]
@@ -35,7 +37,15 @@ export default Vue.extend({
     setNewSide(newSide) {
       this.newSide = newSide
      },
-    addNewSide() { this.sides.push(this.newSide)}
+    addNewSide() { this.sides.push(this.newSide)},
+    save() {
+      if (this.isNew) {
+        const {title, slug} = this
+        const payload = {title,slug}
+        this[DICES_STORE.MUTATIONS.NEW_TITLE](payload)
+        this.$router.push(`${ROUTES.DICE_EDITOR}/${payload.slug}`)
+      }
+    }
   },
   computed: {
       ...Vuex.mapState({ allDices: DICES_STORE.STORE}),
@@ -58,5 +68,6 @@ export default Vue.extend({
         return {title, slug, sides}
       },
       processedDice() { return processDice(this.currentDice) },
+      isTitleValid() { return (VALIDATION_RULES.MINIMUM_FOUR(this.title) === true )}
   },
 })

@@ -1,11 +1,13 @@
 import state from './dices-default-state.js'
 import { SIDES_TYPES } from '../constants/SIDE_TYPES.js'
+import { slugFinder } from '../helpers/slugFinder.js'
 
 const STORE = 'dices'
 export const DICES_STORE = {
   STORE,
   MUTATIONS : {
-    UPSERT: `${STORE}_new`,
+    UPSERT: `${STORE}_upsert`,
+    NEW_TITLE: `${STORE}_new_title`,
     DELETE: `${STORE}_delete`,
     ADD_SIDE: `${STORE}_add_side`,
     REMOVE_SIDE: `${STORE}_remove_side`,
@@ -18,8 +20,14 @@ export const DICES_STORE = {
 }
 
 const mutations = {
-  [DICES_STORE.MUTATIONS.UPSERT]: function(state, newSet) {
-    Vue.set(state, newSet.slug, newSet)
+  [DICES_STORE.MUTATIONS.UPSERT]: function(state, newDice) {
+    Vue.set(state, newDice.slug, newDice)
+  },
+  [DICES_STORE.MUTATIONS.NEW_TITLE]: function(state, titleSlug) {
+    const { title } = titleSlug
+    titleSlug.sides = []
+    titleSlug.slug = slugFinder(state, _.kebabCase(title))
+    mutations[DICES_STORE.MUTATIONS.UPSERT](state, titleSlug)
   },
   [DICES_STORE.MUTATIONS.DELETE]: function(state, diceSlug) {
     Vue.delete(state, diceSlug)
