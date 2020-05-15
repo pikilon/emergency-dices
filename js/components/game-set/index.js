@@ -83,6 +83,7 @@ export default Vue.extend({
     resetGameSet() {
       this.diceResults = this.dices.map(({sides}) => sides[0].content.toString())
       if (this.noDices) this.editing = true
+      this.selectedDices = {}
     },
   },
   computed: {
