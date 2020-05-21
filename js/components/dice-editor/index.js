@@ -22,6 +22,11 @@ export default Vue.extend({
   created() {
     this.refreshDice()
   },
+  watch: {
+    $route() {
+      this.refreshDice()
+    }
+  },
   methods: {
     ...Vuex.mapMutations([DICES_STORE.MUTATIONS.NEW_TITLE]),
     loadStoreData() {
@@ -31,6 +36,7 @@ export default Vue.extend({
     },
     refreshDice() {
       if (this.routeSlug) this.loadStoreData()
+      this.newSide = {}
     },
     setSide(index, side) { Vue.set(this.sides, index, side) },
     deleteSide(index) { Vue.delete(this.sides, index) },

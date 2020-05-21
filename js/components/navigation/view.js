@@ -12,6 +12,14 @@ export const template = /*html*/
       <v-list-item-title>Emergency dices</v-list-item-title>
     </v-list-item-content>
   </v-list-item>
+  <v-list-item tag="router-link" to="${ROUTES.NEW_DICE}">
+    <v-list-item-icon>
+      <v-icon>mdi-dice-5</v-icon>
+    </v-list-item-icon>
+    <v-list-item-content>
+      <v-list-item-title>New dice</v-list-item-title>
+    </v-list-item-content>
+  </v-list-item>
   <v-list-item tag="router-link" to="${ROUTES.NEW_GAME_SET}">
     <v-list-item-icon>
       <v-icon>mdi-pen</v-icon>
