@@ -24,6 +24,7 @@ A Vue practice to generate set of dices for board games
 * new dice interface
 * titles mixin to pages
 * enable persitence
+* implement more v-model
 
 * adaptative dices (for bigger content)
 * results equal, sum also custom

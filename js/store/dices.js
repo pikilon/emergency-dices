@@ -52,7 +52,7 @@ export const processSides = (sides) => sides.reduce(
       return result
     }
     if (side.type === SIDES_TYPES.NUMBER_INTERVAL) {
-      let [lowerBound, upperBound] = side.content.split(',')
+      let [lowerBound, upperBound] = side.content.split(',').map(parseFloat)
       for (lowerBound; lowerBound <= upperBound; lowerBound++) {
         result.push({content: lowerBound.toString(), type: SIDES_TYPES.NUMBER})
       }

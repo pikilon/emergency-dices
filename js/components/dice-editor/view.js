@@ -12,12 +12,12 @@ export const template = /*html*/`
   <div class="${s.block}">
     <v-text-field v-model="titleSlug" label="Dice Title" :rules="rules.title"/>
     <v-row class="controls" justify="space-between">
-      <v-btn color="secondary" v-if="!isNew">
-        <v-icon left>mdi-dice-5</v-icon> Save a copy
+      <v-btn color="secondary" v-if="!isNew" :disabled="!titleChanged">
+        <v-icon left>mdi-content-save-all</v-icon> Save a copy
       </v-btn>
 
       <v-btn color="primary" @click="save" :disabled="!isTitleValid">
-        <v-icon left>mdi-floppy</v-icon> Save
+        <v-icon left>mdi-content-save</v-icon> Save
       </v-btn>
 
     </v-row >

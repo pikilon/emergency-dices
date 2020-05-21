@@ -68,6 +68,8 @@ export default Vue.extend({
         return {title, slug, sides}
       },
       processedDice() { return processDice(this.currentDice) },
-      isTitleValid() { return (VALIDATION_RULES.MINIMUM_FOUR(this.title) === true )}
+      isTitleValid() { return (VALIDATION_RULES.MINIMUM_FOUR(this.title) === true )},
+      titleChanged() { return this.storeDice.slug !== this.slug && this.isTitleValid},
+
   },
 })

@@ -5,7 +5,7 @@ import { SIDES_TYPES } from "../../constants/SIDE_TYPES.js"
 import cssMixin from '../../mixins/css.js'
 import { DEFAULT_VALUES } from "../../constants/DEFAULT_VALUES.js"
 import { VALIDATION_RULES } from "../../constants/VALIDATION_RULES.js"
-
+import sideContentInterval from "./side-content-interval/index.js"
 
 const SIDE_TYPES_MAP = {
   [SIDES_TYPES.STRING]: {value: SIDES_TYPES.STRING, label: 'A Word', inputLabel: 'Small Word for the side', rules: [VALIDATION_RULES.REQUIRED, VALIDATION_RULES.MAX_FOUR], type: 'text',  maxlength: "4"},
@@ -16,7 +16,7 @@ const SIDE_TYPES_MAP = {
 
 export default Vue.extend({
   name: 'side-generator',
-  components: { diceSide },
+  components: { diceSide, sideContentInterval },
   template,
   css,
   mixins: [cssMixin],
@@ -38,10 +38,6 @@ export default Vue.extend({
 
       }
     },
-    sendInterval(min, max) {
-      const content = [min,max].join(',')
-      this.sendSide({content})
-    },
     deleteSide() {
       this.$emit('deleteSide', this.index)
     },
@@ -53,7 +49,7 @@ export default Vue.extend({
     }
   },
   computed: {
-    limitNumberChars() {return `if (Number(this.value) > 4) this.value = this.value.slice(0,4)`},
+    limitNumberChars() {return `if (this.value.length > 4) this.value = this.value.slice(0,4)`},
     isInterval() {return this.type === SIDES_TYPES.NUMBER_INTERVAL},
     isString() {return this.type === SIDES_TYPES.STRING},
     isSymbol() {return this.type === SIDES_TYPES.SYMBOL},
@@ -71,36 +67,6 @@ export default Vue.extend({
       const ellipsis = {...first, content: '...'}
       const last = processedSides[processedSides.length - 1]
       return [first, ellipsis, last]
-    },
-    intervals() {
-      const finalContent = this.content || DEFAULT_VALUES.SIDES.CONTENT[SIDES_TYPES.NUMBER_INTERVAL]
-      return finalContent.split(',')
-    },
-    min: {
-      get() {
-        const [min] = this.intervals
-        return min
-      },
-      set(min) {
-        min = parseInt(min)
-        const initialMax = parseInt(this.max)
-        let max = !initialMax || (initialMax <= min) ? min + 3 : initialMax
-        if (max > 9999) max = 9999
-        this.sendInterval(min,max)
-
-      },
-    },
-    max: {
-      get() {
-        const [min, max] = this.intervals
-        return max
-      },
-      set(max) {
-        max = parseInt(max)
-        const initialMin = parseInt(this.min)
-        const min = !initialMin || (initialMin >= max) ? max - 3 : initialMin
-        this.sendInterval(min,max)
-      },
     },
     sideContent: {
       get() { return this.content },

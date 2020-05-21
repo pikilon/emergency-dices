@@ -36,10 +36,7 @@ export const template = /*html*/`
       <dice-side v-for="(side, index) in processedSidesEllipsis" :key="index + side.content" :result="side.content"
         :color="side.color" />
     </div>
-    <v-card-actions v-if="isInterval">
-      <v-text-field v-model="min" label="Low bound" class="ma-2" type="number" :oninput="limitNumberChars" counter="4"/>
-      <v-text-field v-model="max" label="High bound" class="ma-2" type="number" :oninput="limitNumberChars" counter="4" />
-    </v-card-actions>
+    <side-content-interval v-if="isInterval" v-model="sideContent" :max-chars="limitNumberChars"/>
     <v-card-actions v-else>
       <v-text-field v-model="sideContent" :label="sideTypesMap[type].inputLabel" :rules="sideTypesMap[type].rules" :maxlength="sideTypesMap[type].maxlength" />
     </v-card-actions>
