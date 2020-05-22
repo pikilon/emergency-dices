@@ -45,7 +45,6 @@ export const template = /*html*/`
 
 export const css = /*css*/ `
   .${s.sides} {
-    width: 600px;
     display: flex;
   }
   .${s.title} {
